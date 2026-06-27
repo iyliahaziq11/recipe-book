@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Recipe Book 🍳</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #ffe066;
+    --coral: #ff6b6b;
+    --mint: #b5ead7;
+    --pink: #ffb3c6;
+    --sky: #a0d8ef;
+    --purple: #c9b8f5;
+    --orange: #ffbe76;
+    --ink: #1a1a2e;
+    --bg: #fffdf5;
+    --card-bg: #fff9f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: 'Nunito', sans-serif;
+background: var(--bg);
+color: var(--ink);
+min-height: 100vh;
+}
+
+header {
+background: var(--yellow);
+border-bottom: 3px solid var(--ink);
+padding: 2rem 2rem 1.5rem;
+position: relative;
+overflow: hidden;
+}
+header::before {
+content: '';
+position: absolute;
+top: -30px; right: -30px;
+width: 120px; height: 120px;
+background: var(--coral);
+border-radius: 50%;
+border: 3px solid var(--ink);
+}
+header::after {
+content: '';
+position: absolute;
+bottom: -20px; left: 40%;
+width: 80px; height: 80px;
+background: var(--mint);
+border-radius: 50%;
+border: 3px solid var(--ink);
+}
+.header-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+.header-title {
+font-family: 'Fredoka One', cursive;
+font-size: clamp(2.2rem, 6vw, 3.5rem);
+color: var(--ink);
+line-height: 1.1;
+}
+.header-title span { color: var(--coral); }
+.header-sub {
+font-size: 1rem;
+font-weight: 600;
+color: #555;
+margin-top: 6px;
+}
+.header-actions {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+margin-top: 1.25rem;
+}
+.btn {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+padding: 10px 20px;
+border-radius: 30px;
+border: 2.5px solid var(--ink);
+font-family: 'Nunito', sans-serif;
+font-weight: 800;
+font-size: 0.9rem;
+cursor: pointer;
+transition: transform 0.1s, box-shadow 0.1s;
+text-decoration: none;
+}
+.btn:active { transform: scale(0.96); }
+.btn-primary { background: var(--coral); color: #fff; box-shadow: 3px 3px 0 var(--ink); }
+.btn-primary:hover { box-shadow: 5px 5px 0 var(--ink); transform: translate(-1px,-1px); }
+.btn-secondary { background: #fff; color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+.btn-secondary:hover { box-shadow: 5px 5px 0 var(--ink); transform: translate(-1px,-1px); }
+
+.toolbar {
+background: #fff;
+border-bottom: 2.5px solid var(--ink);
+padding: 1rem 2rem;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+.toolbar-inner {
+max-width: 900px;
+margin: 0 auto;
+display: flex;
+gap: 12px;
+flex-wrap: wrap;
+align-items: center;
+}
+.search-box {
+flex: 1;
+min-width: 180px;
+display: flex;
+align-items: center;
+gap: 8px;
+background: var(--bg);
+border: 2.5px solid var(--ink);
+border-radius: 30px;
+padding: 8px 16px;
+}
+.search-box input {
+border: none;
+background: transparent;
+font-family: 'Nunito', sans-serif;
+font-size: 0.95rem;
+font-weight: 600;
+color: var(--ink);
+outline: none;
+width: 100%;
+}
+.filter-chips {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+}
+.chip {
+padding: 6px 14px;
+border-radius: 30px;
+border: 2.5px solid var(--ink);
+font-family: 'Nunito', sans-serif;
+font-weight: 700;
+font-size: 0.8rem;
+cursor: pointer;
+background: #fff;
+transition: background 0.15s, transform 0.1s;
+white-space: nowrap;
+}
+.chip.active, .chip:hover { background: var(--yellow); transform: translateY(-1px); }
+
+main {
+max-width: 900px;
+margin: 0 auto;
+padding: 2rem;
+}
+.section-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 1.25rem;
+}
+.section-title {
+font-family: 'Fredoka One', cursive;
+font-size: 1.5rem;
+color: var(--ink);
+}
+.count-badge {
+background: var(--coral);
+color: #fff;
+font-weight: 800;
+font-size: 0.75rem;
+padding: 3px 10px;
+border-radius: 30px;
+border: 2px solid var(--ink);
+}
+
+.recipe-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+gap: 1.25rem;
+margin-bottom: 3rem;
+}
+
+.recipe-card {
+background: var(--card-bg);
+border: 2.5px solid var(--ink);
+border-radius: 18px;
+overflow: hidden;
+cursor: pointer;
+transition: transform 0.15s, box-shadow 0.15s;
+position: relative;
+box-shadow: 4px 4px 0 var(--ink);
+}
+.recipe-card:hover {
+transform: translate(-2px,-3px);
+box-shadow: 6px 7px 0 var(--ink);
+}
+.card-emoji-wrap {
+font-size: 3rem;
+text-align: center;
+padding: 1.25rem 1rem 0.75rem;
+position: relative;
+}
+.card-source-badge {
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 0.65rem;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+padding: 3px 9px;
+border-radius: 20px;
+border: 2px solid var(--ink);
+}
+.source-mum    { background: var(--pink); }
+.source-web    { background: var(--sky); }
+.source-tiktok { background: var(--purple); }
+.source-own    { background: var(--mint); }
+
+.card-body { padding: 0.75rem 1rem 1rem; }
+.card-title {
+font-family: 'Fredoka One', cursive;
+font-size: 1.15rem;
+color: var(--ink);
+line-height: 1.2;
+margin-bottom: 4px;
+}
+.card-tags {
+display: flex;
+gap: 5px;
+flex-wrap: wrap;
+margin: 6px 0;
+}
+.card-tag {
+font-size: 0.7rem;
+font-weight: 700;
+padding: 3px 9px;
+border-radius: 20px;
+border: 2px solid var(--ink);
+}
+.card-meta {
+display: flex;
+gap: 10px;
+margin-top: 8px;
+font-size: 0.78rem;
+font-weight: 600;
+color: #555;
+}
+.card-fav {
+position: absolute;
+bottom: 10px;
+right: 10px;
+font-size: 1.1rem;
+cursor: pointer;
+transition: transform 0.2s;
+}
+.card-fav:hover { transform: scale(1.3); }
+
+.modal-overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(26,26,46,0.55);
+z-index: 200;
+align-items: center;
+justify-content: center;
+padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+background: var(--card-bg);
+border: 3px solid var(--ink);
+border-radius: 24px;
+width: 100%;
+max-width: 600px;
+max-height: 90vh;
+overflow-y: auto;
+box-shadow: 8px 8px 0 var(--ink);
+position: relative;
+animation: popIn 0.2s ease;
+}
+@keyframes popIn {
+from { transform: scale(0.9); opacity: 0; }
+to { transform: scale(1); opacity: 1; }
+}
+.modal-header {
+padding: 1.5rem 1.5rem 0;
+display: flex;
+align-items: flex-start;
+gap: 1rem;
+}
+.modal-emoji { font-size: 3.5rem; }
+.modal-title-wrap { flex: 1; }
+.modal-title {
+font-family: 'Fredoka One', cursive;
+font-size: 1.7rem;
+color: var(--ink);
+line-height: 1.2;
+}
+.modal-close {
+background: var(--coral);
+border: 2.5px solid var(--ink);
+border-radius: 50%;
+width: 36px;
+height: 36px;
+font-size: 1.1rem;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 800;
+flex-shrink: 0;
+transition: transform 0.1s;
+}
+.modal-close:hover { transform: scale(1.1); }
+.modal-body { padding: 1rem 1.5rem 1.5rem; }
+.modal-meta {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+margin: 0.75rem 0;
+}
+.modal-pill {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+font-size: 0.8rem;
+font-weight: 700;
+padding: 5px 12px;
+border-radius: 20px;
+border: 2px solid var(--ink);
+}
+.modal-section-title {
+font-family: 'Fredoka One', cursive;
+font-size: 1.1rem;
+margin: 1.1rem 0 0.5rem;
+color: var(--ink);
+}
+.ingredient-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 5px;
+}
+.ingredient-list li {
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 0.9rem;
+font-weight: 600;
+}
+.ingredient-list li::before {
+content: '';
+width: 10px;
+height: 10px;
+border-radius: 50%;
+border: 2px solid var(--ink);
+background: var(--yellow);
+flex-shrink: 0;
+}
+.steps-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+.steps-list li {
+display: flex;
+gap: 12px;
+font-size: 0.9rem;
+font-weight: 600;
+line-height: 1.6;
+}
+.step-num {
+background: var(--coral);
+color: #fff;
+border: 2px solid var(--ink);
+border-radius: 50%;
+width: 26px;
+height: 26px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.75rem;
+font-weight: 800;
+flex-shrink: 0;
+margin-top: 2px;
+}
+.modal-note {
+margin-top: 1rem;
+background: var(--yellow);
+border: 2px solid var(--ink);
+border-radius: 12px;
+padding: 0.75rem 1rem;
+font-size: 0.85rem;
+font-weight: 600;
+line-height: 1.6;
+}
+.modal-note::before { content: '💡 '; }
+
+.form-group { margin-bottom: 1rem; }
+.form-label {
+display: block;
+font-weight: 800;
+font-size: 0.85rem;
+margin-bottom: 5px;
+color: var(--ink);
+}
+.form-input, .form-select, .form-textarea {
+width: 100%;
+border: 2.5px solid var(--ink);
+border-radius: 12px;
+padding: 9px 14px;
+font-family: 'Nunito', sans-serif;
+font-size: 0.9rem;
+font-weight: 600;
+background: #fff;
+color: var(--ink);
+outline: none;
+transition: box-shadow 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+box-shadow: 3px 3px 0 var(--ink);
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.empty-state {
+text-align: center;
+padding: 3rem 1rem;
+display: none;
+}
+.empty-state.show { display: block; }
+.empty-emoji { font-size: 4rem; margin-bottom: 1rem; }
+.empty-text { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--ink); }
+
+footer {
+border-top: 2.5px solid var(--ink);
+background: var(--mint);
+padding: 1.5rem 2rem;
+text-align: center;
+font-weight: 700;
+font-size: 0.85rem;
+color: var(--ink);
+}
+
+@media (max-width: 600px) {
+.form-row { grid-template-columns: 1fr; }
+header { padding: 1.5rem; }
+main { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-title">My Recipe<br><span>Book</span> 🍳</div>
+    <div class="header-sub">Mum's classics · web finds · TikTok hits · my own creations</div>
+    <div class="header-actions">
+      <button class="btn btn-primary" onclick="openAddModal()">＋ Add Recipe</button>
+      <button class="btn btn-secondary" onclick="exportBook()">💾 Save / Export</button>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="Search recipes..." oninput="renderRecipes()">
+    </div>
+    <div class="filter-chips">
+      <button class="chip active" data-filter="all" onclick="setFilter('all',this)">All</button>
+      <button class="chip" data-filter="mum" onclick="setFilter('mum',this)">👩‍🍳 Mum</button>
+      <button class="chip" data-filter="web" onclick="setFilter('web',this)">🌐 Web</button>
+      <button class="chip" data-filter="tiktok" onclick="setFilter('tiktok',this)">📱 TikTok</button>
+      <button class="chip" data-filter="own" onclick="setFilter('own',this)">✨ My Own</button>
+      <button class="chip" data-filter="fav" onclick="setFilter('fav',this)">❤️ Faves</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="section-header">
+    <div class="section-title">All Recipes</div>
+    <div class="count-badge" id="countBadge">0</div>
+  </div>
+  <div class="recipe-grid" id="recipeGrid"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="empty-emoji">🥺</div>
+    <div class="empty-text">No recipes found!</div>
+    <p style="margin-top:0.5rem; font-weight:600; color:#777;">Try a different search or filter</p>
+  </div>
+</main>
+
+<footer>Made with ❤️ · My personal recipe collection · Add, save, share!</footer>
+
+<div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
+  <div class="modal" id="viewModalContent"></div>
+</div>
+
+<div class="modal-overlay" id="addModal" onclick="closeAddModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-title" id="formTitle">Add New Recipe ✨</div>
+      </div>
+      <button class="modal-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Recipe name *</label>
+          <input class="form-input" id="f-name" placeholder="e.g. Mum's Laksa">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emoji icon</label>
+          <input class="form-input" id="f-emoji" placeholder="🍜" maxlength="4">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Source</label>
+          <select class="form-select" id="f-source">
+            <option value="own">✨ My Own</option>
+            <option value="mum">👩‍🍳 From Mum</option>
+            <option value="web">🌐 From Website</option>
+            <option value="tiktok">📱 From TikTok</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category / cuisine</label>
+          <input class="form-input" id="f-category" placeholder="e.g. Noodles, Dessert">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Cook time</label>
+          <input class="form-input" id="f-time" placeholder="e.g. 30 mins">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Servings</label>
+          <input class="form-input" id="f-servings" placeholder="e.g. 4">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tags (comma-separated)</label>
+        <input class="form-input" id="f-tags" placeholder="e.g. Spicy, Vegetarian, Quick">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ingredients (one per line)</label>
+        <textarea class="form-textarea" id="f-ingredients" placeholder="2 tbsp cooking oil&#10;1 onion, diced&#10;3 cloves garlic"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Steps (one per line)</label>
+        <textarea class="form-textarea" id="f-steps" rows="5" placeholder="Heat oil in a pan&#10;Fry onion until golden&#10;Add garlic and stir"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes / tips (optional)</label>
+        <textarea class="form-textarea" id="f-notes" rows="2" placeholder="Any special tips or variations..."></textarea>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:1rem;">
+        <button class="btn btn-primary" style="flex:1;" onclick="saveRecipe()">💾 Save Recipe</button>
+        <button class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SOURCE_LABELS = { mum:'👩‍🍳 Mum', web:'🌐 Website', tiktok:'📱 TikTok', own:'✨ My Own' };
+const SOURCE_CLASS  = { mum:'source-mum', web:'source-web', tiktok:'source-tiktok', own:'source-own' };
+const TAG_COLORS    = ['#ffe066','#ffb3c6','#b5ead7','#a0d8ef','#c9b8f5','#ffbe76'];
+
+let currentFilter = 'all';
+let editingId = null;
+
+const STORAGE_KEY = 'myRecipeBook_v1';
+
+function loadRecipes() {
+  try {
+    const d = localStorage.getItem(STORAGE_KEY);
+    return d ? JSON.parse(d) : null;
+  } catch(e) { return null; }
+}
+function saveRecipes() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
+}
+
+let recipes = loadRecipes() || [
+  {
+    id: 26,
+    name: "Udang Masala",
+    emoji: "🍤",
+    source: "mum",
+    category: "Lauk Melayu",
+    time: "45 minit",
+    servings: "4",
+    tags: ["Malaysian", "Seafood", "Pedas", "Rempah"],
+    ingredients: [
+      "— BAHAN A (PERAP UDANG) —",
+      "1kg udang sederhana besar (gunting muncung dan ekor)",
+      "1 sudu teh kunyit serbuk",
+      "1 sudu makan lada serbuk",
+      "1 sudu makan jus limau nipis",
+      "Garam secukup rasa",
+      "— BAHAN B (KUAH MASALA) —",
+      "3 biji bawang besar, dicincang",
+      "1 sudu makan jintan manis",
+      "1 sudu makan pes halia dan bawang putih",
+      "4 biji tomato besar, dicincang",
+      "1 sudu makan lada serbuk",
+      "1 sudu teh serbuk lada hitam",
+      "2 pelepah daun kari",
+      "1 sudu teh serbuk kunyit",
+      "½ cawan minyak",
+      "1 cawan air",
+      "Garam secukup rasa"
+    ],
+    steps: [
+      "Gaul udang dengan semua Bahan A — kunyit, lada serbuk, jus limau nipis, dan garam. Perap selama 1 jam.",
+      "Goreng udang yang telah diperap hingga masak dan keperangan. Ketepikan.",
+      "Panaskan ½ cawan minyak dalam kuali. Tumis jintan manis dan daun kari hingga wangi.",
+      "Masukkan bawang besar yang dicincang. Tumis hingga layu dan kekuningan.",
+      "Masukkan pes halia dan bawang putih. Kacau selama 2–3 minit hingga naik bau.",
+      "Masukkan tomato cincang. Masak hingga tomato hancur dan wangi.",
+      "Masukkan lada serbuk, lada hitam, kunyit, dan garam. Kacau sebati dan masak beberapa minit lagi.",
+      "Tuangkan 1 cawan air, gaul rata, dan biarkan mendidih sebentar.",
+      "Masukkan udang goreng tadi. Gaul rata dan masak selama 5 minit.",
+      "Tutup api. Hidang dengan nasi briyani atau nasi putih."
+    ],
+    notes: "Resepi Ibu. Perap udang sekurang-kurangnya 1 jam — lebih lama lebih sebati rasa. Goreng udang dulu sebelum masuk kuah supaya udang tak lembik. Sedap sangat jika dihidang sekali dengan Nasi Briyani Ibu.",
+    fav: true
+  },
+  {
+    id: 25,
+    name: "Nasi Briyani Ibu",
+    emoji: "🍚",
+    source: "mum",
+    category: "Nasi",
+    time: "1 jam",
+    servings: "4–6",
+    tags: ["Malaysian", "Briyani", "Basmati", "Family Recipe"],
+    ingredients: [
+      "1kg beras basmati (cuci dan rendam ½ jam, toskan)",
+      "Air ikut sukatan beras",
+      "5 biji cengkih",
+      "5 biji pelaga",
+      "½ jari kayu manis",
+      "1 biji bawang besar, dihiris",
+      "1 sudu makan pes halia",
+      "1 sudu makan pes bawang putih",
+      "Segenggam daun pudina",
+      "1 pokok daun ketumbar",
+      "3 sudu makan ghee",
+      "3 sudu makan minyak jagung",
+      "Garam secukup rasa"
+    ],
+    steps: [
+      "Tuangkan air dan garam dalam periuk elektrik. Biarkan mendidih.",
+      "Sementara itu, panaskan ghee dan minyak jagung dalam kuali. Tumis cengkih, pelaga, dan kayu manis hingga wangi.",
+      "Masukkan bawang besar hirisan. Tumis hingga kekuningan.",
+      "Masukkan pes halia dan pes bawang putih. Tumis hingga wangi.",
+      "Masukkan daun pudina dan daun ketumbar. Tumis sebentar hingga wangi.",
+      "Tuangkan semua tumisan ke dalam periuk elektrik yang telah mendidih. Kacau rata.",
+      "Masukkan beras basmati yang telah ditos. Masak seperti biasa dalam periuk elektrik hingga nasi masak."
+    ],
+    notes: "Resepi Ibu. Kunci briyani yang sedap — tumis rempah dengan ghee dulu sebelum masuk periuk. Daun pudina dan ketumbar segar bagi aroma yang sangat wangi. Sedap dihidang sekali dengan Udang Masala Ibu.",
+    fav: true
+  },
+  {
+    id: 24,
+    name: "Mee Rebus Ibu",
+    emoji: "🍜",
+    source: "mum",
+    category: "Mee",
+    time: "1 jam 30 minit",
+    servings: "6–8",
+    tags: ["Malaysian", "Mee", "Kuah Pekat", "Family Recipe"],
+    ingredients: [
+      "Daging, potong kecil dan direbus (simpan air rebusan)",
+      "— BLEND —",
+      "3 biji bawang sederhana besar",
+      "5 ulas bawang putih",
+      "2 batang serai",
+      "1 inci halia",
+      "1 inci lengkuas",
+      "100g udang geragau",
+      "3 sudu besar taucu",
+      "3 sudu besar rempah kari",
+      "1 jari kayu manis",
+      "10–15 tangkai cili kering (buang biji, rebus sekejap)",
+      "— KUAH —",
+      "150–200g keledek, direbus dan dikisar bersama air",
+      "1 sudu kecil pes asam",
+      "5 sudu tepung gandum, dibancuh dengan air (cair)",
+      "Garam dan gula secukup rasa",
+      "Air secukupnya"
+    ],
+    steps: [
+      "Rebus daging hingga empuk. Simpan air rebusan daging. Ketepikan daging.",
+      "Rebus cili kering sebentar, buang biji. Blend bersama semua bahan blend hingga halus.",
+      "Rebus keledek hingga empuk. Kisar bersama sedikit air hingga jadi pes. Ketepikan.",
+      "Tumis bahan blend dalam periuk besar hingga naik bau dan garing.",
+      "Masukkan air rebusan daging secukupnya dan 1 sudu kecil pes asam. Kacau rata.",
+      "Masukkan keledek kisar ke dalam kuah. Biarkan mendidih.",
+      "Bancuh 5 sudu tepung gandum dengan air hingga cair (lebih cair dari adunan roti jala). Bila kuah mendidih, tambah 1 gelas air dahulu, kemudian tuangkan bancuhan tepung sambil kacau berterusan supaya tidak berketul.",
+      "Perasakan dengan garam dan gula.",
+      "Masukkan daging rebus tadi. Biar mendidih sebentar.",
+      "Hidang dengan mee kuning, tauge, telur rebus, tahu goreng, dan bawang goreng."
+    ],
+    notes: "Resepi Ibu. Keledek adalah rahsia kuah mee rebus yang pekat dan manis semula jadi — jangan skip! Bancuhan tepung mesti cair dan kacau sambil tuang supaya kuah tak berketul. Air rebusan daging bagi kuah lebih berperisa.",
+    fav: true
+  },
+  {
+    id: 23,
+    name: "Kacang Phool Ibu",
+    emoji: "🫘",
+    source: "mum",
+    category: "Lauk Melayu",
+    time: "40 minit",
+    servings: "4–6",
+    tags: ["Malaysian", "Kacang", "Comfort Food", "Family Recipe"],
+    ingredients: [
+      "4 tin kacang phool (fava beans), dikisar kasar",
+      "4 sudu besar daging kisar",
+      "1 biji bawang besar, dihiris (untuk menumis)",
+      "1 sudu besar cili boh",
+      "— BAHAN KISAR —",
+      "1 biji bawang besar",
+      "Halia sebesar ibu jari",
+      "4–5 ulas bawang putih kecil (atau 3 ulas besar)",
+      "1½ sudu teh serbuk jintan putih (cumin powder)",
+      "— REMPAH BUNGA (OPTIONAL) —",
+      "1 inci kayu manis",
+      "3 biji pelaga",
+      "3 biji bunga cengkih",
+      "Minyak goreng untuk menumis",
+      "Minyak sapi (optional)",
+      "— HIASAN —",
+      "1 biji bawang besar, dipotong dadu",
+      "Cili hijau, dihiris"
+    ],
+    steps: [
+      "Panaskan minyak (dan minyak sapi jika guna) dalam periuk. Tumis bawang besar hirisan hingga garing keemasan.",
+      "Masukkan rempah bunga — kayu manis, pelaga, cengkih (jika guna). Tumis sebentar hingga wangi.",
+      "Masukkan bahan kisar, cili boh, dan serbuk jintan putih. Tumis hingga garing dan naik bau.",
+      "Masukkan daging kisar. Masak hingga daging berubah warna dan masak sepenuhnya.",
+      "Masukkan kacang phool yang telah dikisar kasar. Kacau sebati dan biarkan mendidih sebentar.",
+      "Tutup api. Hidang dengan taburan bawang dadu dan cili hijau."
+    ],
+    notes: "Resepi Ibu. Kacang phool jangan kisar terlalu halus — nak ada tekstur. Rempah bunga (kayu manis, pelaga, cengkih) cuma untuk naikkan bau, boleh skip kalau tiada. Sedap dimakan dengan roti canai atau nasi.",
+    fav: true
+  },
+  {
+    id: 22,
+    name: "Sambal Tumis Ibu",
+    emoji: "🌶️",
+    source: "mum",
+    category: "Sambal",
+    time: "45 minit",
+    servings: "8–10",
+    tags: ["Malaysian", "Sambal", "Pedas", "Condiment"],
+    ingredients: [
+      "150g cili kering (potong dan buang biji)",
+      "150g bawang besar",
+      "30g bawang putih",
+      "50g belacan"
+    ],
+    steps: [
+      "Potong cili kering dan buang bijinya. Rendam dalam air panas sebentar hingga lembut.",
+      "Blend cili kering, bawang besar, bawang putih, dan belacan hingga halus.",
+      "Panaskan minyak yang banyak dalam kuali. Masukkan blend.",
+      "Tumis atas api sederhana, kacau kerap supaya tidak hangit. Masak hingga minyak naik ke permukaan dan sambal bertukar warna gelap kemerahan — ini tanda sambal dah masak.",
+      "Perasakan dengan garam dan gula secukup rasa.",
+      "Biar sejuk sebelum simpan dalam bekas kedap udara."
+    ],
+    notes: "Resepi Ibu. Nisbah asas: 150g cili kering : 150g bawang : 30g bawang putih : 50g belacan. Sambal mesti masak betul-betul — minyak kena naik dan warna kena gelap. Boleh simpan dalam peti sejuk beberapa minggu. Guna sebagai asas untuk pelbagai masakan.",
+    fav: true
+  },
+  {
+    id: 21,
+    name: "Bubur Kacang Hijau",
+    emoji: "🟢",
+    source: "mum",
+    category: "Dessert",
+    time: "45 minit",
+    servings: "4",
+    tags: ["Malaysian", "Dessert", "Sweet", "Comfort Food"],
+    ingredients: [
+      "1 cawan kacang hijau",
+      "Daun pandan, diikat",
+      "Air secukupnya (agak-agak)",
+      "Gula secukup rasa",
+      "Santan secukupnya",
+      "¼ sudu teh garam"
+    ],
+    steps: [
+      "Rebus kacang hijau dengan daun pandan hingga kacang kembang dan empuk.",
+      "Tambah air secukupnya — agak-agak ikut pekat yang diingini.",
+      "Masukkan gula secukup rasa. Kacau hingga larut.",
+      "Tuangkan santan. Kacau dan biarkan mendidih perlahan atas api kecil.",
+      "Tambah ¼ sudu teh garam. Rasa dan laraskan manis.",
+      "Hidang panas atau sejuk."
+    ],
+    notes: "Resepi Ibu. Daun pandan wajib ada — bagi aroma yang sangat wangi. Rebus kacang sampai betul-betul kembang dulu sebelum tambah gula, kalau tidak kacang susah nak empuk. Pekat atau cair ikut selera.",
+    fav: true
+  },
+  {
+    id: 20,
+    name: "Ayam Goreng Rempah Ibu",
+    emoji: "🍗",
+    source: "mum",
+    category: "Lauk Melayu",
+    time: "30 minit + perap",
+    servings: "4–6",
+    tags: ["Malaysian", "Chicken", "Goreng", "Family Recipe"],
+    ingredients: [
+      "2kg ayam, potong ikut suka",
+      "1½ sudu teh serbuk ketumbar (coriander powder)",
+      "1 sudu teh serbuk jintan putih (cumin powder)",
+      "1 sudu teh kunyit serbuk",
+      "2 ulas bawang putih, diparut",
+      "Garam secukup rasa",
+      "Minyak untuk menggoreng"
+    ],
+    steps: [
+      "Gaul ayam dengan semua rempah — serbuk ketumbar, jintan putih, kunyit, bawang putih parut, dan garam. Sebati rata.",
+      "Perap sekurang-kurangnya 30 minit (lebih lama lebih sedap — boleh perap semalaman dalam peti sejuk).",
+      "Panaskan minyak yang banyak dalam kuali. Goreng ayam atas api sederhana hingga masak dan keperangan di semua bahagian.",
+      "Toskan minyak. Hidang panas."
+    ],
+    notes: "Resepi Ibu — sukatan untuk 2kg ayam. Perap lama kunci rasa yang meresap. Kunyit bagi warna emas yang cantik. Simple tapi sedap!",
+    fav: true
+  },
+  {
+    id: 19,
+    name: "Sos Roti John Petis Ibu",
+    emoji: "🌭",
+    source: "mum",
+    category: "Sos / Condiment",
+    time: "15 minit",
+    servings: "8–10",
+    tags: ["Malaysian", "Sos", "Roti John", "Sweet"],
+    ingredients: [
+      "1 cawan cili kisar",
+      "1 cawan gula",
+      "½ cawan sos tomato (ketchup)",
+      "1 sudu teh cuka ATAU 5 biji jus limau kasturi",
+      "1 sudu besar petis",
+      "½ cawan air"
+    ],
+    steps: [
+      "Campurkan semua bahan dalam periuk kecil — cili kisar, gula, sos tomato, cuka (atau jus limau kasturi), petis, dan air.",
+      "Masak atas api sederhana sambil kacau hingga mendidih.",
+      "Biarkan mendidih sebentar hingga sos pekat sedikit.",
+      "Sejukkan sebelum guna. Simpan dalam botol kedap udara."
+    ],
+    notes: "Resepi Ibu. Petis adalah bahan rahsia yang bagi sos ni rasa umami yang dalam. Guna cuka atau limau kasturi — dua-dua okay, tapi limau kasturi bagi rasa lebih segar. Sedap sangat untuk roti john, burger, atau sebagai dipping sauce.",
+    fav: true
+  },
+  {
+    id: 18,
+    name: "Chelok Ikan (Asam Pedas Utara)",
+    emoji: "🐠",
+    source: "mum",
+    category: "Masakan Melayu",
+    time: "30 minit",
+    servings: "4",
+    tags: ["Malaysian", "Ikan", "Masam", "Pedas"],
+    ingredients: [
+      "Ikan (ikut suka)",
+      "Nanas, potong tipis",
+      "3 keping asam keping",
+      "1 batang serai, dititik",
+      "Garam dan gula secukup rasa",
+      "Air secukupnya",
+      "— BLEND (*) —",
+      "1 biji bawang besar*",
+      "3 ulas bawang putih*",
+      "1–2 inci kunyit basah* (atau ½ sudu teh kunyit serbuk)",
+      "1 sudu besar belacan*",
+      "1 batang cili merah segar* (atau 3 batang cili kering*)"
+    ],
+    steps: [
+      "Blend semua bahan bertanda * — bawang besar, bawang putih, kunyit, belacan, dan cili — hingga halus.",
+      "Masukkan bahan blend ke dalam periuk bersama air secukupnya. Didihkan sambil kacau.",
+      "Masukkan garam, gula, asam keping, dan serai.",
+      "Masukkan ikan dan nanas. Masak hingga ikan masak dan kuah sebati.",
+      "Rasa dan laraskan manis, masam, dan masin. Hidang panas dengan nasi."
+    ],
+    notes: "Resepi Ibu. Masak tanpa menumis dulu — blend terus masuk dalam air dan didihkan. Nanas bagi rasa masam manis yang semula jadi. Asam keping tambah lagi rasa masam yang khas. Cili segar vs cili kering akan bagi warna dan rasa yang berbeza — cili kering lebih pekat warnanya.",
+    fav: true
+  },
+  {
+    id: 17,
+    name: "Kari Daging Ibu",
+    emoji: "🍛",
+    source: "mum",
+    category: "Curry",
+    time: "1 jam 15 minit",
+    servings: "4",
+    tags: ["Malaysian", "Beef", "Curry", "Family Recipe"],
+    ingredients: [
+      "500g daging, potong kiub",
+      "5 sudu besar rempah kari daging",
+      "3 biji bawang besar sederhana, dicincang*",
+      "3 ulas bawang putih besar, dihancurkan*",
+      "1 inci halia, dititik*",
+      "3–4 biji kentang sederhana, dikupas dan dipotong",
+      "2–3 cawan air",
+      "3 sudu besar minyak masak",
+      "1½ sudu teh garam (secukup rasa)",
+      "1 sudu teh gula (optional)",
+      "2 batang serai, dititik (optional)",
+      "2–3 sudu besar santan atau susu cair (optional)"
+    ],
+    steps: [
+      "Gaul daging dengan rempah kari daging dan secubit garam. Perap sekurang-kurangnya 15–20 minit.",
+      "Cincang bawang, hancurkan bawang putih, dan titik halia.",
+      "Panaskan minyak dalam periuk atas api sederhana. Tumis bawang, bawang putih, dan halia hingga wangi dan kekuningan — jangan tergesa-gesa, ini asas rasa kari.",
+      "Masukkan daging yang telah diperap. Kacau hingga daging kecut sedikit dan berwarna.",
+      "Tuangkan air (cukup untuk menenggelamkan daging). Kacau, kemudian kecilkan api ke sederhana kecil.",
+      "Tutup periuk dan reneh selama 40–50 minit hingga daging empuk. Kacau sekali-sekala dan tambah air jika perlu.",
+      "Bila daging dah empuk, masukkan kentang. Masak tanpa tutup selama 15–20 minit lagi hingga kentang empuk tapi tidak hancur.",
+      "Rasa dan perasakan garam. Masukkan santan jika guna, kacau dan reneh 2 minit lagi.",
+      "Hidang panas dengan nasi putih atau roti."
+    ],
+    notes: "Resepi Ibu — sukatan untuk 500g daging. Tip Ibu: masukkan kentang lewat supaya tidak hancur. Kalau tiada chopper, hiris bawang, hancurkan bawang putih dengan pisau, dan titik halia je — semua okay. Brand rempah kari penting — Baba's atau Adabi pilihan terbaik.",
+    fav: true
+  },
+  {
+    id: 16,
+    name: "Lemak Siput Sedut",
+    emoji: "🐚",
+    source: "mum",
+    category: "Masakan Melayu",
+    time: "45 minit",
+    servings: "4",
+    tags: ["Malaysian", "Seafood", "Lemak", "Santan"],
+    ingredients: [
+      "Siput sedut, secukupnya",
+      "Keladi (yam), potong kiub",
+      "Santan, secukupnya",
+      "Air secukupnya",
+      "Garam secukup rasa",
+      "— BLEND —",
+      "1 biji bawang besar",
+      "1–2 sudu besar belacan",
+      "2 ulas bawang putih",
+      "2–3 biji cili merah segar",
+      "Serai (optional)",
+      "— SERVE WITH —",
+      "Ikan selah kuning, goreng"
+    ],
+    steps: [
+      "Letak siput dalam bekas berisi air. Biar siput memanjat naik — yang hidup akan bergerak, yang mati tidak. Buang yang mati.",
+      "Basuh siput yang hidup bersih-bersih. Gunting hujung siput (bahagian ekor) supaya senang sedut masa makan.",
+      "Blend bawang besar, belacan, bawang putih, cili merah, dan serai (jika guna) sehingga halus.",
+      "Masukkan blend ke dalam periuk tanpa minyak. Tumis atas api sederhana sehingga tumis masak sepenuhnya dan wangi — biar air dari blend tu kering dan pecah minyak.",
+      "Masukkan siput dan tutup periuk. Biar masak sehingga siput terbuka dan masak, kacau sekali-sekala.",
+      "Kukus keladi berasingan sehingga empuk. Ketepikan.",
+      "Tuangkan santan dan air ke dalam periuk siput. Kacau dan biar mendidih perlahan. Perasakan dengan garam.",
+      "Masukkan keladi kukus ke dalam lemak. Kacau perlahan dan biar sebati.",
+      "Hidang dengan ikan selah kuning goreng."
+    ],
+    notes: "Cara nak tahu siput hidup atau mati: letak dalam air, yang hidup akan memanjat keluar. Gunting hujung siput adalah kunci — senang nak sedut dan kuah masuk dalam siput. Tumis tanpa minyak bagi tumis lebih pekat dan kering — pecah minyak dulu baru masuk siput. Keladi dikukus berasingan supaya tak hancur dalam lemak.",
+    fav: true
+  },
+  {
+    id: 15,
+    name: "Tom Kha Pla (Tom Kha Gai)",
+    emoji: "🐟",
+    source: "tiktok",
+    category: "Sup Thai",
+    time: "30 minit",
+    servings: "3–4",
+    tags: ["Thai", "Sup", "Santan", "Pedas Masam"],
+    ingredients: [
+      "Ikan (ikut suka — ikan air tawar atau ikan laut pun boleh) / atau ayam jika buat Tom Kha Gai",
+      "3 batang serai, dititik",
+      "Santan 1 kotak (200ml)",
+      "1 biji tomato, potong",
+      "1 ruas lengkuas, 6 hiris",
+      "1 biji bawang besar, hiris",
+      "4 ulas bawang putih, dititik",
+      "5 helai daun limau purut",
+      "7 biji cili padi",
+      "6–8 sudu besar sos ikan jelmaan sotong",
+      "1 akar ketumbar, diketuk",
+      "Segenggam daun ketumbar",
+      "Air secukupnya",
+      "Garam secukup rasa",
+      "Gula secukup rasa",
+      "2 biji perahan limau nipis (boleh lebih kalau suka masam)"
+    ],
+    steps: [
+      "Rebus air dalam periuk. Masukkan serai, lengkuas, bawang besar, bawang putih, daun limau purut, cili padi, dan akar ketumbar. Biarkan mendidih dan wangi, lebih kurang 10 minit.",
+      "Masukkan ikan (atau ayam). Masak sehingga ikan hampir masak.",
+      "Masukkan tomato dan sos ikan jelmaan sotong. Kacau dan biarkan mendidih sebentar.",
+      "Tuangkan santan. Kacau perlahan dan biarkan sup mendidih semula atas api sederhana — jangan biarkan mendidih kuat-kuat selepas santan masuk.",
+      "Perasakan dengan garam dan gula. Rasa dan laraskan.",
+      "Sebelum angkat, perahkan limau nipis. Tabur daun ketumbar.",
+      "Hidang panas dengan nasi putih."
+    ],
+    notes: "Resepi asal oleh @dyasyazzy. Kalau guna ayam, namanya jadi Tom Kha Gai. Sos ikan jelmaan sotong bagi rasa lebih dalam — kalau tak ada, guna sos ikan biasa pun boleh. Sedap makan panas-panas dengan nasi putih, gabung sekali dengan telur dadar ala Thai!",
+    fav: false
+  },
+  {
+    id: 14,
+    name: "Sup Ayam Masam Thai (Tom Som Gai)",
+    emoji: "🍋",
+    source: "tiktok",
+    category: "Sup Thai",
+    time: "35 minit",
+    servings: "3–4",
+    tags: ["Thai", "Sup", "Masam", "Pedas"],
+    ingredients: [
+      "Ayam (potong ikut suka)",
+      "4–5 tangkai cili kering",
+      "2 batang serai, dititik",
+      "2 inci lengkuas, dititik",
+      "2 akar ketumbar",
+      "2 sudu besar sos ikan Thai",
+      "1 sudu kecil thai palm sugar (atau gula melaka)",
+      "Garam & perasa secukup rasa",
+      "1 asam keping",
+      "Potongan daun ketumbar (untuk hiasan)",
+      "Perahan limau nipis (secukup rasa)",
+      "— BAHAN LAIN —",
+      "Bihun",
+      "Garlic oil (untuk serve)"
+    ],
+    steps: [
+      "Rendam cili kering dalam air panas sebentar sehingga lembut. Toskan.",
+      "Dalam periuk, rebus air bersama serai, lengkuas, akar ketumbar, dan cili kering. Biar mendidih 10–15 minit sehingga wangi dan warna keluar.",
+      "Masukkan ayam dan asam keping. Masak sehingga ayam empuk dan masak sepenuhnya.",
+      "Perasakan dengan sos ikan Thai, palm sugar, garam, dan perasa. Laraskan rasa — sup ini patut terasa masam, sedikit manis, dan pedas.",
+      "Sediakan bihun: rendam dalam air panas sehingga lembut, atau rebus ikut arahan pek. Toskan dan letak dalam mangkuk.",
+      "Tuangkan sup panas ke atas bihun. Titiskan garlic oil, taburkan daun ketumbar, dan perahkan limau nipis.",
+      "Hidang segera selagi panas."
+    ],
+    notes: "Resepi asal oleh Che Sayang Kitchen di TikTok. Asam keping bagi rasa masam yang berbeza dari limau — jangan skip! Palm sugar Thai boleh ganti dengan gula melaka atau gula perang. Garlic oil bila dituang atas sup panas — memang naik semerbak.",
+    fav: false
+  },
+  {
+    id: 13,
+    name: "Beef Pho",
+    emoji: "🍜",
+    source: "own",
+    category: "Soup / Noodles",
+    time: "1.5–2 hrs",
+    servings: "3–4",
+    tags: ["Vietnamese", "Beef", "Noodles", "Comfort Food"],
+    ingredients: [
+      "— PARBOIL —",
+      "1kg beef knuckle cubes + bones if you have",
+      "Water to cover (~2–2.5L)",
+      "1 tsp salt",
+      "2 tbsp white/rice vinegar",
+      "2 shallots, halved",
+      "3–4 slices fresh ginger",
+      "— CHAR —",
+      "1 large yellow onion, halved",
+      "40g fresh ginger, sliced into coins",
+      "— PRESSURE COOK —",
+      "Parboiled beef knuckle + bones",
+      "Charred onion & ginger",
+      "Fresh water up to max line",
+      "1 tsp salt",
+      "15g rock sugar",
+      "— TOAST & INFUSE SPICES —",
+      "4 star anise",
+      "3 whole cloves",
+      "1 cinnamon stick",
+      "2 cardamom pods, lightly crushed",
+      "1 tsp coriander seeds",
+      "½ tsp fennel seeds",
+      "— NOODLES —",
+      "300–360g dried flat rice noodles (banh pho)",
+      "— STRAIN & SEASON —",
+      "3–4 tbsp fish sauce (adjust to taste)",
+      "Rock sugar to taste",
+      "Salt to taste",
+      "— ASSEMBLE (per bowl) —",
+      "Bean sprouts",
+      "2 spring onions, sliced",
+      "Fresh coriander",
+      "Thai basil",
+      "Saw-tooth herb",
+      "Red chilli, sliced",
+      "Lime wedges"
+    ],
+    steps: [
+      "Parboil: Add beef knuckle + bones (if using) to a pot with enough water to cover. Add 1 tsp salt, 2 tbsp vinegar, shallots, and ginger slices. Bring to a boil and boil for 5 minutes, removing scum as it rises. Drain, rinse the beef, and clean the pot.",
+      "Char: Char the halved onion and ginger slices directly over an open flame (or under a broiler) until lightly blackened on the outside.",
+      "Pressure cook: Add parboiled beef + charred onion & ginger + fresh water up to the max line + 1 tsp salt + 15g rock sugar. Pressure cook on Meat/Stew High for 45 minutes. Natural release for 15 minutes.",
+      "Toast spices: While the pressure cooker is running, dry toast star anise, cloves, cinnamon, cardamom, coriander seeds, and fennel seeds in a dry pan over medium heat until fragrant. Set aside.",
+      "Infuse spices: After pressure release, add the toasted spices to the broth (in a spice bag or loose). Simmer on Sauté Low for 20–30 minutes.",
+      "Noodles: Either soak dried noodles in room temperature water for 20–30 minutes then boil for 1–2 minutes, or boil directly in boiling water for 3–4 minutes. Divide into serving bowls.",
+      "Strain & season: Remove the spice bag, then strain the broth. Season with fish sauce, rock sugar, and salt to taste.",
+      "Assemble: Layer noodles then sliced/shredded beef in each bowl. Pour over hot broth. Top with bean sprouts, spring onion, coriander, Thai basil, saw-tooth herb, and chilli. Serve with lime wedges on the side."
+    ],
+    notes: "Parboiling and rinsing the beef is key — it removes impurities and keeps the broth clear. Charring the onion and ginger gives that signature deep, smoky sweetness. The spice infuse step is where the magic happens — don't rush it. Fish sauce, rock sugar, and salt are your levers for balancing the final broth: salty, slightly sweet, deeply savoury.",
+    fav: false
+  },
+  {
+    id: 12,
+    name: "Pad Ped Siakap",
+    emoji: "🐟",
+    source: "web",
+    category: "Thai",
+    time: "35 mins",
+    servings: "2–3",
+    tags: ["Thai", "Spicy", "Seafood", "Quick"],
+    ingredients: [
+      "1 whole siakap (barramundi / sea bass), ~600–800g, cleaned and scored",
+      "— SAUCE —",
+      "2–3 tbsp red curry paste (Maesri or Mae Ploy)",
+      "2 tbsp fish sauce",
+      "1 tbsp oyster sauce",
+      "1 tsp palm sugar (or brown sugar)",
+      "3–4 tbsp water",
+      "— AROMATICS —",
+      "3–4 cloves garlic, minced",
+      "2–3 red chillies (prik chi fa), sliced diagonally",
+      "4–5 kaffir lime leaves, torn",
+      "1 stalk lemongrass, bottom half bruised and sliced thinly",
+      "1 thumb krachai (lesser galangal / fingerroot), julienned — sub with ½ thumb ginger",
+      "— TO FINISH —",
+      "1 handful Thai basil leaves",
+      "Oil for frying"
+    ],
+    steps: [
+      "Score the fish with 3 diagonal cuts on each side. Pat completely dry with kitchen towel — this is key for a crispy skin.",
+      "Mix together the sauce: red curry paste, fish sauce, oyster sauce, sugar, and water in a small bowl. Set aside.",
+      "Heat enough oil in a wok or deep pan for shallow frying. When oil is hot, fry the whole fish on medium-high heat for 4–5 minutes per side until golden and cooked through. Remove and drain on a rack or paper towels.",
+      "Pour out most of the oil, leaving about 2 tbsp in the wok. Fry the Thai basil leaves for 20–30 seconds until crispy. Remove and set aside.",
+      "In the same wok over medium heat, fry the garlic and lemongrass until fragrant, about 30 seconds. Add the krachai and stir for another 30 seconds.",
+      "Add the sauce mixture. Stir and let it bubble for 1–2 minutes until slightly thickened and fragrant.",
+      "Add the kaffir lime leaves and sliced chillies. Toss together.",
+      "Pour the sauce over the fried fish on a serving plate. Top with crispy basil leaves.",
+      "Serve immediately with steamed jasmine rice."
+    ],
+    notes: "Drying the fish thoroughly before frying is crucial — any moisture will cause oil splatter and prevent crispy skin. If you can't find krachai, use half the amount of regular ginger. Adjust red curry paste to your spice tolerance. Farmed siakap is the safer choice if cooking for pregnant women — lower mercury than wild-caught.",
+    fav: false
+  },
+  {
+    id: 11,
+    name: "Teh (Big & Small Batch)",
+    emoji: "🧋",
+    source: "own",
+    category: "Drinks",
+    time: "30 mins",
+    servings: "5 (1L) or 20 (4L)",
+    tags: ["Malaysian", "Tea", "Big Batch", "Raya"],
+    ingredients: [
+      "— SMALL BATCH (1L / ~5 cups) —",
+      "1000ml water (1L)",
+      "6–8 pandan leaves, tied into a bundle",
+      "4 tbsp tea leaves",
+      "85–100g condensed milk (start with 85g)",
+      "225–250g evaporated milk",
+      "— BIG BATCH (4L / ~20 cups) —",
+      "4000ml water (4L)",
+      "25–30 pandan leaves, tied into bundles",
+      "15–18 tbsp tea leaves",
+      "350–400g condensed milk (start with 350g)",
+      "900–1000g evaporated milk"
+    ],
+    steps: [
+      "Bring water and pandan leaves to a boil. Simmer for 10–15 minutes. Remove pandan — don't overboil or it turns grassy. (Small batch: 1L | Big batch: 4L)",
+      "Scoop out about 25% of the hot pandan water into a separate vessel. Add tea leaves and steep for 3–5 minutes only. Strain and set aside. (Small batch: ~250ml | Big batch: ~1–1.5L) — brewing separately prevents bitterness and gives you better control.",
+      "In the main pot, add condensed milk and evaporated milk. Stir well to combine. Start with the lower amount and adjust to taste.",
+      "Slowly pour the brewed tea into the milk base, stirring continuously.",
+      "Taste and adjust: too strong → add hot water; too weak → add a little more brewed tea; not sweet enough → add condensed milk gradually.",
+      "Optional: do a light teh tarik pull before serving for a smoother texture. Add a pinch of salt to enhance the flavour."
+    ],
+    notes: "Small batch = 1L (~5 cups). Big batch = 4L (~20 cups). All big batch amounts are exactly 4x the small batch. Brewing tea separately is the key move — controls strength and avoids bitterness. Pinch of salt really does make a difference!",
+    fav: false
+  },
+  {
+    id: 10,
+    name: "Bagel (okonomikitchen)",
+    emoji: "🥯",
+    source: "web",
+    category: "Bread",
+    time: "Overnight + 3 hrs (or same day)",
+    servings: "6",
+    tags: ["Bread", "Baked", "Japanese", "Chewy"],
+    ingredients: [
+      "— DOUGH (add in this order) —",
+      "260–268g water (21–22°C)",
+      "13g oil (optional)",
+      "432g bread flour (high gluten flour)",
+      "2g active dry yeast (overnight) OR 5g active dry yeast (same day)",
+      "1 tsp malt powder",
+      "10g salt",
+      "22g brown sugar",
+      "— BOILING LIQUID —",
+      "Water",
+      "1 heaping tbsp malt syrup, honey, or brown sugar"
+    ],
+    steps: [
+      "Add all dough ingredients to a stand mixer or bread machine in the order listed — be sure the yeast and salt don't touch directly. Knead with dough hook on lowest speed; once flour starts absorbing water (2–3 mins), increase to speed 2 and mix for 6–8 minutes. For hand kneading, knead in a bowl for 5–10 minutes until slightly smooth and not sticky. Dough temp should be below 27°C. Dough should feel moist but not sticky — it won't be super smooth or pass a windowpane test, that's fine.",
+      "Remove dough from bowl and place in a container or plastic bag. For overnight method: place in the vegetable compartment of your fridge for at least 8 hours and up to 24 hours. For same day method (5g yeast): proof at room temperature (24–25°C) until doubled, about 1 hour.",
+      "If using overnight method, remove dough from fridge and let it return to 17°C / 63°F. Divide into 6 equal portions (~120–122g each). Roughly shape into logs and rest covered for 20 minutes to relax the dough.",
+      "Roll each piece out to about 15 x 18cm. Starting from the top, roll down tightly, pressing with the base of your palm to keep it firm. Pinch the seams. Keep covered with a damp cloth. Repeat for all pieces.",
+      "Return to the first piece (it should have rested at least 5 minutes). Roll and stretch the dough with both hands. With the seam facing up, flatten one edge with your palm or roller. Bring the other end over and wrap around, pinching tightly to seal. Twist 1–2 times for a chewier, tighter texture. Place on parchment paper. Keep covered with a damp paper towel.",
+      "Proof for 20–30 minutes at 40°C (active dry yeast) until it slowly springs back when poked. Start preheating oven to 218°C / 425°F about 20–30 minutes before baking.",
+      "Bring a pot of water to a boil. Add 1 heaping tbsp malt syrup, honey, or sugar. Boil each bagel for 10–30 seconds per side — the longer you boil, the chewier the exterior. Remove with a slotted spoon and transfer to a prepared baking tray.",
+      "Bake at 218°C on a baking stone for 20–25 minutes until deep golden brown. At the 10–15 minute mark, remove the parchment paper and transfer the bagels to the top rack (without the stone) to avoid burning the bottom. Continue baking until done. Transfer to a wire rack to cool."
+    ],
+    notes: "Overnight cold proof (active dry yeast, 2g) gives the best flavour. Same day method uses 5g instant yeast, bulk proof ~1 hour at room temp. The longer you roll the dough, the bigger the hole — don't go smaller than 14cm width or it's hard to keep the roll intact. Twist the dough 1–2 times during shaping for extra chew. Based on okonomikitchen's dry yeast bagel recipe.",
+    fav: false
+  },
+  {
+    id: 9,
+    name: "Crispy Skirt Dumplings",
+    emoji: "🥟",
+    source: "own",
+    category: "Dumplings",
+    time: "1 hr",
+    servings: "30–35 dumplings",
+    tags: ["Chinese", "Crispy", "Beef", "Pan-fried"],
+    ingredients: [
+      "— FILLING —",
+      "500g minced beef",
+      "2 garlic cloves, minced",
+      "5–10g fresh ginger, minced (about ½–1 thumb)",
+      "2 spring onions, finely sliced",
+      "80ml chicken broth",
+      "15ml soy sauce",
+      "3–5ml sesame oil",
+      "0.5g white pepper",
+      "0.5g black pepper",
+      "0.5g salt + MSG combined",
+      "Mushroom seasoning powder, to taste",
+      "— CRISPY SKIRT (flour:water = 1:4 ratio) —",
+      "1 part potato starch",
+      "2 parts plain (AP) flour",
+      "12 parts water"
+    ],
+    steps: [
+      "Combine minced beef, garlic, ginger, spring onions, chicken broth, soy sauce, sesame oil, white pepper, black pepper, salt + MSG, and mushroom seasoning. Mix well in one direction until the filling is sticky and holds together. Chill in fridge while you prep.",
+      "Make the skirt slurry: mix potato starch, plain flour, and water in a 1:2:12 ratio. Stir until fully dissolved. Set aside — stir again just before using as it settles.",
+      "Fill and fold dumplings to your preferred shape. Pleat the edges well so they don't burst during cooking.",
+      "Heat a non-stick pan over medium heat with a thin layer of oil. Place dumplings flat-side down. Pan-fry for 2–3 minutes until the bottoms are lightly golden.",
+      "Give the skirt slurry a stir, then pour enough into the pan to come about 3–4mm up the sides of the dumplings. Immediately cover with a lid.",
+      "Steam on medium heat for 6–8 minutes until the water is almost fully absorbed. Remove the lid and let the remaining liquid cook off — the starch will form a golden, lacy skirt connecting all the dumplings.",
+      "Once the skirt is golden and crisp, run a spatula underneath to loosen. Invert onto a plate (skirt side up) or slide out carefully. Serve immediately."
+    ],
+    notes: "The skirt slurry ratio is 1 part potato starch : 2 parts plain flour : 12 parts water by volume or weight. The chicken broth in the filling keeps it juicy — don't skip it. Stir the filling in one direction only to build that bouncy, sticky texture.",
+    fav: false
+  },
+  {
+    id: 8,
+    name: "Walnut Basil Pesto Pasta",
+    emoji: "🌿",
+    source: "own",
+    category: "Pasta",
+    time: "20 mins",
+    servings: "2",
+    tags: ["Quick", "Vegetarian", "Italian"],
+    ingredients: [
+      "200g pasta (spaghetti or linguine)",
+      "40g fresh basil leaves, packed",
+      "35g walnuts, lightly toasted",
+      "2 garlic cloves",
+      "30g parmesan, finely grated",
+      "4 tbsp extra virgin olive oil",
+      "1 tsp lemon juice",
+      "½ tsp salt",
+      "¼ tsp black pepper"
+    ],
+    steps: [
+      "Add walnuts to a dry pan over medium heat. Toast for 3–4 minutes, stirring often, until golden and fragrant. Let cool slightly.",
+      "Bring a large pot of well-salted water to a boil. Cook pasta according to packet instructions until al dente. Before draining, reserve about 60ml of pasta water.",
+      "In a food processor (or mortar & pestle), blitz basil, toasted walnuts, garlic, and parmesan until roughly chopped. Drizzle in olive oil and lemon juice while blending. Season with salt and pepper. Blend to your preferred texture — chunky or smooth.",
+      "Drain the pasta and toss immediately with the pesto, adding splashes of reserved pasta water to loosen the sauce and coat every strand. Serve right away with extra parmesan and a drizzle of olive oil."
+    ],
+    notes: "Walnuts give a slightly more earthy, bitter flavour than pine nuts — in a good way! If too bitter, add a tiny pinch of sugar or extra lemon. Don't over-blend or the pesto turns dark; pulse in short bursts. Leftover pesto keeps 3 days in the fridge with a thin layer of olive oil on top.",
+    fav: false
+  },
+  {
+    id: 7,
+    name: "Japanese Chicken Curry",
+    emoji: "🍜",
+    source: "own",
+    category: "Curry",
+    time: "50 mins",
+    servings: "4",
+    tags: ["Japanese", "Chicken", "Comfort Food"],
+    ingredients: [
+      "1 whole chicken, cut into pieces",
+      "1.5 litres Japanese curry liquid (e.g. S&B or House Vermont)",
+      "2 medium potatoes, peeled and cut into chunks",
+      "2 medium carrots, cut into chunks",
+      "1 onion, sliced",
+      "Broccoli, cut into florets (to serve on the side)",
+      "1 tbsp cornstarch + a little water (for slurry)",
+      "A dash of soy sauce",
+      "Oil for pan-frying"
+    ],
+    steps: [
+      "Pan-fry the chicken pieces on medium-high heat until nicely coloured on all sides. No need to cook through — just get some good colour for flavour. Set aside.",
+      "Deglaze the pan with a splash of water or stock, scraping up any browned bits. Add the sliced onion and stir-fry until softened and lightly golden.",
+      "Add the curry liquid to the pot and bring to a simmer.",
+      "Mix 1 tbsp cornstarch with a little cold water to make a slurry. Stir into the curry to help thicken the sauce.",
+      "Add the chicken back into the pot. Simmer on medium-low heat for 20–25 minutes until cooked through.",
+      "Add the potatoes and carrots. Continue simmering for another 15–20 minutes until both are tender.",
+      "Stir in a dash of soy sauce to deepen the flavour. Taste and adjust.",
+      "Meanwhile, boil the broccoli in salted water until just tender. Drain and set aside.",
+      "Serve the curry over steamed rice with the boiled broccoli on the side."
+    ],
+    notes: "Pan-frying the chicken first is key — the Maillard reaction adds a ton of flavour to the whole curry. Don't skip deglazing or you'll lose all those tasty brown bits! Adjust the cornstarch slurry to your preferred thickness.",
+    fav: false
+  },
+  {
+    id: 6,
+    name: "Rice Paper Spring Rolls",
+    emoji: "🥢",
+    source: "tiktok",
+    category: "Snacks",
+    time: "45 mins",
+    servings: "35–40 rolls",
+    tags: ["Vietnamese", "Crispy", "TikTok", "Shareable"],
+    ingredients: [
+      "— REHYDRATE —",
+      "20g dried black fungus / woodear mushrooms",
+      "45g bean thread / mungbean noodle (dry weight)",
+      "— FILLING —",
+      "360g ground pork, turkey, or chicken",
+      "360g minced shrimp (or extra 360g ground meat if allergic)",
+      "80g carrots, shredded",
+      "1 medium onion, diced",
+      "2 large eggs",
+      "30g fish sauce",
+      "10g chicken bouillon",
+      "12g sugar",
+      "3g black pepper",
+      "Garlic, minced — to taste",
+      "— TO ROLL —",
+      "35–40 rice paper sheets (22cm)",
+      "— NUOC CHAM DIPPING SAUCE —",
+      "60g fish sauce",
+      "60g lime juice (about 3 limes)",
+      "45g sugar",
+      "120g water",
+      "10g garlic, minced",
+      "5g Thai chili, sliced (optional)"
+    ],
+    steps: [
+      "Soak dried black fungus and bean thread noodle in hot water for 10–15 minutes. Drain under cold water, then cut into smaller pieces using scissors.",
+      "Combine all filling ingredients — ground meat, shrimp, carrots, onion, rehydrated mushrooms & noodles, eggs, fish sauce, chicken bouillon, sugar, black pepper, and garlic. Mix well.",
+      "Fry a small piece of the mixture in a pan to taste-test the seasoning. Adjust salt, pepper, or fish sauce as needed before rolling.",
+      "Wet a rice paper sheet with cold water on both sides. Pat off excess water. Add filling to the middle and roll tightly. Keep rolled spring rolls apart — they will stick and tear if they touch each other.",
+      "Shallow fry on medium heat for 8 minutes, flipping halfway through. Fry 5–6 at a time. More rolls in the oil = lower temperature = longer cook time. Keep rolls apart while frying — they are sticky at first.",
+      "AIR FRY alternative: Spray or brush rolls with oil. Air fry at 200°C for 10–12 minutes, flipping halfway through.",
+      "Make nuoc cham: Mix fish sauce, lime juice, sugar, water, garlic, and chili. Stir until sugar fully dissolves. Should taste salty, sweet, sour, and a little spicy.",
+      "Serve hot! Great wrapped in iceberg lettuce leaves and dipped in the nuoc cham."
+    ],
+    notes: "Based on @AlissaNguyenWon's TikTok recipe, scaled for 35–40 rolls. Fish sauce is added to the filling for deeper flavour. All weights are in grams; bean thread noodle weight is dry/before soaking. If allergic to shrimp, use 720g ground meat total.",
+    fav: true
+  },
+  {
+    id: 5,
+    name: "Mum's Beef Curry (Kari Daging)",
+    emoji: "🍛",
+    source: "mum",
+    category: "Curry",
+    time: "1 hr 15 mins",
+    servings: "4",
+    tags: ["Malaysian", "Beef", "Spicy", "Family Recipe"],
+    ingredients: [
+      "500g beef, cut into chunks",
+      "5 tbsp meat curry powder (rempah kari daging)",
+      "3 medium onions, chopped",
+      "3 large garlic cloves, crushed",
+      "1 inch ginger, bruised",
+      "3–4 medium potatoes, peeled and quartered",
+      "2–3 cups water",
+      "3 tbsp cooking oil",
+      "1½ tsp salt (to taste)",
+      "1 tsp sugar (optional, to balance flavour)",
+      "2 stalks lemongrass, bruised (optional but recommended)",
+      "2–3 tbsp coconut milk or evaporated milk (optional, for creamier curry)"
+    ],
+    steps: [
+      "Mix beef pieces with the meat curry powder and a pinch of salt. Marinate for at least 15–20 minutes.",
+      "Chop onions, crush garlic, and bruise the ginger (no need to peel, just smash).",
+      "Heat oil in a pot over medium heat. Sauté onions, garlic, and ginger until fragrant and golden — don't rush this step, it builds the flavour base.",
+      "Add the marinated beef and stir well. Cook until the beef starts to shrink and colour slightly.",
+      "Pour in water (enough to just cover the beef). Stir, then reduce heat to medium-low.",
+      "Simmer with the lid on for 40–50 minutes until beef is tender. Stir occasionally and top up water if needed.",
+      "Once beef is tender, add the potatoes. Cook uncovered for another 15–20 minutes until potatoes are soft but still hold their shape.",
+      "Taste and adjust salt. Add coconut milk if using, stir through and simmer for 2 more minutes.",
+      "Serve hot with white rice or roti."
+    ],
+    notes: "Mum's tip: always add potatoes late so they don't turn mushy. If you don't have a chopper, just slice the onions, crush the garlic with a knife, and smash the ginger — it all works. The curry powder brand matters a lot; Baba's or Adabi are solid choices.",
+    fav: true
+  },
+  {
+    id: 1,
+    name: "Mum's Nasi Lemak",
+    emoji: "🍚",
+    source: "mum",
+    category: "Rice",
+    time: "1 hr",
+    servings: "4",
+    tags: ["Malaysian", "Classic", "Weekend"],
+    ingredients: [
+      "2 cups jasmine rice",
+      "1 can coconut milk",
+      "3 pandan leaves, knotted",
+      "2 lemongrass stalks, bruised",
+      "1/2 tsp salt",
+      "Sambal, fried anchovies, boiled egg, cucumber to serve"
+    ],
+    steps: [
+      "Rinse rice until water runs clear.",
+      "Combine rice, coconut milk, pandan leaves, lemongrass, salt, and enough water in a rice cooker.",
+      "Cook on normal rice setting until done.",
+      "Fluff with fork and remove pandan & lemongrass.",
+      "Serve warm with sambal, fried anchovies, half a boiled egg, and cucumber slices."
+    ],
+    notes: "Mum always says the pandan leaves make all the difference — don't skip them! Leftover rice tastes even better the next day.",
+    fav: true
+  },
+  {
+    id: 2,
+    name: "TikTok Feta Pasta",
+    emoji: "🧀",
+    source: "tiktok",
+    category: "Pasta",
+    time: "40 mins",
+    servings: "2",
+    tags: ["Viral", "Easy", "Vegetarian"],
+    ingredients: [
+      "200g pasta (penne or fusilli)",
+      "200g block feta cheese",
+      "300g cherry tomatoes",
+      "4 cloves garlic, whole",
+      "4 tbsp olive oil",
+      "Salt, pepper, dried oregano",
+      "Fresh basil to serve"
+    ],
+    steps: [
+      "Preheat oven to 200°C.",
+      "Place cherry tomatoes and garlic in a baking dish. Nestle the feta block in the centre.",
+      "Drizzle olive oil over everything. Season with salt, pepper, and oregano.",
+      "Bake for 35–40 mins until tomatoes burst and feta is golden.",
+      "Cook pasta until al dente, reserve ½ cup pasta water.",
+      "Mash the baked feta and tomatoes together into a creamy sauce.",
+      "Toss in pasta, adding pasta water to loosen. Top with fresh basil."
+    ],
+    notes: "Use a good quality block feta — the crumbly kind doesn't melt as well. Add chilli flakes if you like heat!",
+    fav: false
+  },
+  {
+    id: 3,
+    name: "My Scrambled Egg Toast",
+    emoji: "🍳",
+    source: "own",
+    category: "Breakfast",
+    time: "10 mins",
+    servings: "1",
+    tags: ["Quick", "Breakfast", "Easy"],
+    ingredients: [
+      "2 eggs",
+      "1 tbsp butter",
+      "2 tbsp milk",
+      "Salt and white pepper",
+      "2 slices sourdough, toasted",
+      "Optional: chives, hot sauce"
+    ],
+    steps: [
+      "Crack eggs into a bowl, add milk, salt and white pepper. Beat lightly.",
+      "Melt butter in a non-stick pan over LOW heat — this is the secret.",
+      "Pour in eggs. Gently push from the edges inward with a spatula.",
+      "Remove from heat just before they look fully done — residual heat finishes them.",
+      "Pile onto toast. Top with chives and hot sauce if desired."
+    ],
+    notes: "Low and slow is the key! High heat makes eggs rubbery. I like mine just barely set — almost custardy.",
+    fav: true
+  },
+  {
+    id: 4,
+    name: "Chocolate Lava Cake",
+    emoji: "🍫",
+    source: "web",
+    category: "Dessert",
+    time: "25 mins",
+    servings: "4",
+    tags: ["Dessert", "Chocolate", "Impressive"],
+    ingredients: [
+      "115g dark chocolate (70%)",
+      "115g butter",
+      "2 eggs + 2 egg yolks",
+      "60g caster sugar",
+      "2 tbsp plain flour",
+      "Pinch of salt",
+      "Butter & cocoa powder for ramekins"
+    ],
+    steps: [
+      "Preheat oven to 220°C. Butter 4 ramekins and dust with cocoa powder.",
+      "Melt chocolate and butter together in a bowl over hot water. Let cool slightly.",
+      "Whisk eggs, yolks, and sugar until pale and slightly thickened.",
+      "Fold chocolate mixture into eggs, then fold in flour and salt.",
+      "Divide batter between ramekins. Refrigerate up to 24hrs or bake immediately.",
+      "Bake 12 mins until edges are set but centre is still wobbly.",
+      "Run knife around edge, invert onto plate and serve immediately with ice cream."
+    ],
+    notes: "Do a test bake with one ramekin first to nail your oven's timing. The centre should be liquid — 12 mins is a guide only!",
+    fav: false
+  }
+];
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderRecipes();
+}
+
+function renderRecipes() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = recipes.filter(r => {
+    const matchSearch = !q ||
+      r.name.toLowerCase().includes(q) ||
+      r.category.toLowerCase().includes(q) ||
+      r.tags.some(t => t.toLowerCase().includes(q));
+    const matchFilter =
+      currentFilter === 'all' ? true :
+      currentFilter === 'fav' ? r.fav :
+      r.source === currentFilter;
+    return matchSearch && matchFilter;
+  });
+
+  const grid = document.getElementById('recipeGrid');
+  const empty = document.getElementById('emptyState');
+  document.getElementById('countBadge').textContent = filtered.length;
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.classList.add('show');
+    return;
+  }
+  empty.classList.remove('show');
+
+  grid.innerHTML = filtered.map(r => {
+    const tagHtml = r.tags.slice(0,3).map((t,i) =>
+      `<span class="card-tag" style="background:${TAG_COLORS[i%TAG_COLORS.length]}">${t}</span>`
+    ).join('');
+    return `
+      <div class="recipe-card" onclick="openViewModal(${r.id})">
+        <div class="card-emoji-wrap">
+          <span>${r.emoji || '🍽️'}</span>
+          <span class="card-source-badge ${SOURCE_CLASS[r.source]}">${SOURCE_LABELS[r.source]}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${r.name}</div>
+          <div style="font-size:0.78rem;font-weight:600;color:#777;">${r.category}</div>
+          <div class="card-tags">${tagHtml}</div>
+          <div class="card-meta">
+            ${r.time ? `<span>⏱ ${r.time}</span>` : ''}
+            ${r.servings ? `<span>🍽 ${r.servings}</span>` : ''}
+          </div>
+        </div>
+        <div class="card-fav" onclick="toggleFav(event,${r.id})">${r.fav ? '❤️' : '🤍'}</div>
+      </div>`;
+  }).join('');
+}
+
+function toggleFav(e, id) {
+  e.stopPropagation();
+  const r = recipes.find(x => x.id === id);
+  if (r) { r.fav = !r.fav; saveRecipes(); renderRecipes(); }
+}
+
+function openViewModal(id) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  const ingHtml = r.ingredients.map(i => `<li>${i}</li>`).join('');
+  const stepsHtml = r.steps.map((s,i) =>
+    `<li><div class="step-num">${i+1}</div><div>${s}</div></li>`
+  ).join('');
+  const tagsHtml = r.tags.map((t,i) =>
+    `<span class="modal-pill" style="background:${TAG_COLORS[i%TAG_COLORS.length]}">${t}</span>`
+  ).join('');
+
+  document.getElementById('viewModalContent').innerHTML = `
+    <div class="modal-header">
+      <div class="modal-emoji">${r.emoji || '🍽️'}</div>
+      <div class="modal-title-wrap">
+        <div class="modal-title">${r.name}</div>
+        <span class="card-source-badge ${SOURCE_CLASS[r.source]}" style="position:static;display:inline-block;margin-top:6px;">${SOURCE_LABELS[r.source]}</span>
+      </div>
+      <button class="modal-close" onclick="closeViewModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        ${r.time ? `<span class="modal-pill" style="background:var(--yellow)">⏱ ${r.time}</span>` : ''}
+        ${r.servings ? `<span class="modal-pill" style="background:var(--mint)">🍽 ${r.servings}</span>` : ''}
+        ${tagsHtml}
+      </div>
+      <div class="modal-section-title">🛒 Ingredients</div>
+      <ul class="ingredient-list">${ingHtml}</ul>
+      <div class="modal-section-title">👨‍🍳 Steps</div>
+      <ol class="steps-list">${stepsHtml}</ol>
+      ${r.notes ? `<div class="modal-note">${r.notes}</div>` : ''}
+      <div style="display:flex;gap:8px;margin-top:1.25rem;">
+        <button class="btn btn-secondary" style="font-size:0.8rem;padding:8px 14px;" onclick="editRecipe(${r.id})">✏️ Edit</button>
+        <button class="btn" style="font-size:0.8rem;padding:8px 14px;background:var(--coral);color:#fff;border-color:var(--ink);" onclick="deleteRecipe(${r.id})">🗑 Delete</button>
+      </div>
+    </div>`;
+  document.getElementById('viewModal').classList.add('open');
+}
+
+function closeViewModal(e) {
+  if (!e || e.target === document.getElementById('viewModal'))
+    document.getElementById('viewModal').classList.remove('open');
+}
+
+function openAddModal() {
+  editingId = null;
+  document.getElementById('formTitle').textContent = 'Add New Recipe ✨';
+  ['name','emoji','category','time','servings','tags','ingredients','steps','notes'].forEach(f => {
+    document.getElementById('f-'+f).value = '';
+  });
+  document.getElementById('f-source').value = 'own';
+  document.getElementById('addModal').classList.add('open');
+}
+
+function closeAddModal(e) {
+  if (!e || e.target === document.getElementById('addModal'))
+    document.getElementById('addModal').classList.remove('open');
+}
+
+function editRecipe(id) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  editingId = id;
+  document.getElementById('formTitle').textContent = 'Edit Recipe ✏️';
+  document.getElementById('f-name').value = r.name;
+  document.getElementById('f-emoji').value = r.emoji || '';
+  document.getElementById('f-source').value = r.source;
+  document.getElementById('f-category').value = r.category;
+  document.getElementById('f-time').value = r.time;
+  document.getElementById('f-servings').value = r.servings;
+  document.getElementById('f-tags').value = r.tags.join(', ');
+  document.getElementById('f-ingredients').value = r.ingredients.join('\n');
+  document.getElementById('f-steps').value = r.steps.join('\n');
+  document.getElementById('f-notes').value = r.notes || '';
+  document.getElementById('viewModal').classList.remove('open');
+  document.getElementById('addModal').classList.add('open');
+}
+
+function saveRecipe() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('Please enter a recipe name!'); return; }
+  const data = {
+    name,
+    emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
+    source: document.getElementById('f-source').value,
+    category: document.getElementById('f-category').value.trim() || 'General',
+    time: document.getElementById('f-time').value.trim(),
+    servings: document.getElementById('f-servings').value.trim(),
+    tags: document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    ingredients: document.getElementById('f-ingredients').value.split('\n').map(t=>t.trim()).filter(Boolean),
+    steps: document.getElementById('f-steps').value.split('\n').map(t=>t.trim()).filter(Boolean),
+    notes: document.getElementById('f-notes').value.trim(),
+    fav: false
+  };
+  if (editingId) {
+    const idx = recipes.findIndex(x => x.id === editingId);
+    data.id = editingId;
+    data.fav = recipes[idx].fav;
+    recipes[idx] = data;
+  } else {
+    data.id = Date.now();
+    recipes.unshift(data);
+  }
+  saveRecipes();
+  closeAddModal();
+  renderRecipes();
+}
+
+function deleteRecipe(id) {
+  if (!confirm('Delete this recipe?')) return;
+  recipes = recipes.filter(x => x.id !== id);
+  saveRecipes();
+  document.getElementById('viewModal').classList.remove('open');
+  renderRecipes();
+}
+
+function exportBook() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([
+    html.replace(
+      /let recipes = loadRecipes\(\) \|\| \[[\s\S]*?\];/,
+      `let recipes = loadRecipes() || ${JSON.stringify(recipes, null, 2)};`
+    )
+  ], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'my-recipe-book.html';
+  a.click();
+}
+
+renderRecipes();
+</script>
+</body>
+</html>
