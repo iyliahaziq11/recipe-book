@@ -457,10 +457,11 @@ main { padding: 1.25rem; }
 <header>
   <div class="header-inner">
     <div class="header-title">My Recipe<br><span>Book</span> 🍳</div>
-    <div class="header-sub">Mum's classics · web finds · TikTok hits · my own creations</div>
+    <div class="header-sub">Ibu's classics · web finds · TikTok hits · my own creations</div>
     <div class="header-actions">
       <button class="btn btn-primary" onclick="openAddModal()">＋ Add Recipe</button>
       <button class="btn btn-secondary" onclick="exportBook()">💾 Save / Export</button>
+      <a class="btn btn-secondary" href="confinement.html">🤱 Confinement</a>
     </div>
   </div>
 </header>
@@ -473,11 +474,12 @@ main { padding: 1.25rem; }
     </div>
     <div class="filter-chips">
       <button class="chip active" data-filter="all" onclick="setFilter('all',this)">All</button>
-      <button class="chip" data-filter="mum" onclick="setFilter('mum',this)">👩‍🍳 Mum</button>
+      <button class="chip" data-filter="mum" onclick="setFilter('mum',this)">👩‍🍳 Ibu</button>
       <button class="chip" data-filter="web" onclick="setFilter('web',this)">🌐 Web</button>
       <button class="chip" data-filter="tiktok" onclick="setFilter('tiktok',this)">📱 TikTok</button>
       <button class="chip" data-filter="own" onclick="setFilter('own',this)">✨ My Own</button>
       <button class="chip" data-filter="fav" onclick="setFilter('fav',this)">❤️ Faves</button>
+      <button class="chip" data-filter="confinement" onclick="setFilter('confinement',this)">🤱 Confinement</button>
     </div>
   </div>
 </div>
@@ -513,7 +515,7 @@ main { padding: 1.25rem; }
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Recipe name *</label>
-          <input class="form-input" id="f-name" placeholder="e.g. Mum's Laksa">
+          <input class="form-input" id="f-name" placeholder="e.g. Ibu's Laksa">
         </div>
         <div class="form-group">
           <label class="form-label">Emoji icon</label>
@@ -570,14 +572,14 @@ main { padding: 1.25rem; }
 </div>
 
 <script>
-const SOURCE_LABELS = { mum:'👩‍🍳 Mum', web:'🌐 Website', tiktok:'📱 TikTok', own:'✨ My Own' };
+const SOURCE_LABELS = { mum:'👩‍🍳 Ibu', web:'🌐 Website', tiktok:'📱 TikTok', own:'✨ My Own' };
 const SOURCE_CLASS  = { mum:'source-mum', web:'source-web', tiktok:'source-tiktok', own:'source-own' };
 const TAG_COLORS    = ['#ffe066','#ffb3c6','#b5ead7','#a0d8ef','#c9b8f5','#ffbe76'];
 
 let currentFilter = 'all';
 let editingId = null;
 
-const STORAGE_KEY = 'myRecipeBook_v1';
+const STORAGE_KEY = 'myRecipeBook_v3';
 
 function loadRecipes() {
   try {
@@ -591,12 +593,259 @@ function saveRecipes() {
 
 let recipes = loadRecipes() || [
   {
+    id: 32,
+    name: "Asam Pedas",
+    emoji: "🐟",
+    source: "mum",
+    category: "Masakan Melayu",
+    time: "40 mins",
+    servings: "4",
+    tags: ["Malaysian", "Ikan", "Pedas", "Masam"],
+    ingredients: [
+      "2–3 sudu besar Sambal Tumis Ibu (guna resepi sedia ada)",
+      "2 inci kunyit basah, dikisar",
+      "1 inci lengkuas, ditumbuk",
+      "Daun kesum, secukupnya",
+      "1–2 bunga kantan, dibelah",
+      "3 keping asam keping",
+      "1 sudu besar pes asam jawa",
+      "Ikan (ikut suka)",
+      "Air secukupnya",
+      "Garam dan gula secukup rasa"
+    ],
+    steps: [
+      "Tumis Sambal Tumis Ibu dalam periuk atas api sederhana hingga naik bau dan minyak pecah.",
+      "Masukkan kunyit basah yang dikisar. Tumis sebentar hingga sebati dengan sambal.",
+      "Masukkan lengkuas yang ditumbuk. Tumis hingga wangi.",
+      "Masukkan daun kesum, bunga kantan, asam keping, dan pes asam jawa. Kacau rata.",
+      "Tuangkan air secukupnya. Biarkan mendidih.",
+      "Masukkan ikan. Masak hingga ikan masak dan kuah sebati.",
+      "Perasakan dengan garam dan gula. Rasa dan laraskan masam pedas ikut selera.",
+      "Hidang panas dengan nasi putih."
+    ],
+    notes: "Guna Sambal Tumis Ibu (resepi sedia ada dalam buku ni) sebagai asas — senang kalau dah ada stok dalam peti sejuk. Kunyit basah bagi warna dan wangi yang lebih semula jadi berbanding serbuk. Daun kesum dan bunga kantan adalah wajib untuk aroma khas asam pedas — jangan skip.",
+    fav: false
+  },
+  {
+    id: 31,
+    name: "Kicap Sayur Kering",
+    emoji: "🥬",
+    source: "own",
+    category: "Sayur",
+    time: "30 mins",
+    servings: "4",
+    tags: ["Malaysian", "Kampung", "Sayur", "Kicap"],
+    ingredients: [
+      "— BLEND / TUMBUK —",
+      "1 biji bawang besar",
+      "3 ulas bawang putih",
+      "2 batang cili merah",
+      "— LAIN-LAIN —",
+      "Segenggam ikan bilis, dibasuh",
+      "1 sudu kecil belacan",
+      "Kacang panjang, dipotong",
+      "Tempeh, dihiris",
+      "1 portion tahu kering, direndam",
+      "1 portion su'un, direndam",
+      "Kicap manis, secukup rasa",
+      "Air secukupnya",
+      "Garam secukup rasa",
+      "Minyak untuk menumis"
+    ],
+    steps: [
+      "Blend atau tumbuk bawang besar, bawang putih, dan cili merah hingga kasar/halus ikut suka.",
+      "Panaskan minyak dalam kuali. Tumis bahan blend hingga naik bau.",
+      "Masukkan ikan bilis yang dibasuh dan belacan. Tumis sekali hingga wangi.",
+      "Masukkan kacang panjang dahulu. Tumis sebentar hingga sedikit layu.",
+      "Masukkan tempeh. Kacau rata dan masak sebentar.",
+      "Masukkan tahu kering dan su'un yang telah direndam. Tambah sedikit air jika perlu supaya tidak kering sangat.",
+      "Tuangkan kicap manis secukup rasa. Kacau rata hingga semua bahan sebati dan masak.",
+      "Rasa dan perasakan dengan garam jika perlu. Hidang panas dengan nasi."
+    ],
+    notes: "Rendam tahu kering dan su'un dahulu supaya cepat masak dan lembut bila dimasukkan lewat. Ikan bilis dan belacan bagi rasa umami tanpa perlu stok tambahan. Kicap manis boleh ditambah ikut selera — lebih gelap lebih manis.",
+    fav: false
+  },
+  {
+    id: 30,
+    name: "Lemak Sayur Kering (Kampung Style)",
+    emoji: "🥥",
+    source: "own",
+    category: "Lemak",
+    time: "35 mins",
+    servings: "4",
+    tags: ["Malaysian", "Kampung", "Lemak", "Santan"],
+    ingredients: [
+      "— BLEND / TUMBUK —",
+      "1 biji bawang besar",
+      "3 ulas bawang putih",
+      "3 batang cili hijau",
+      "Segenggam ikan bilis, dibasuh dan direndam sebentar",
+      "1–2 sudu kecil belacan",
+      "— LAIN-LAIN —",
+      "Kacang panjang, dipotong",
+      "1 paket kecil santan",
+      "Tempeh, dihiris",
+      "1 portion tahu kering, direndam",
+      "1 portion su'un, direndam",
+      "Air secukupnya",
+      "Garam secukup rasa",
+      "Minyak untuk menumis"
+    ],
+    steps: [
+      "Blend atau tumbuk bawang besar, bawang putih, cili hijau, ikan bilis yang telah direndam, dan belacan hingga sebati.",
+      "Panaskan minyak dalam periuk. Tumis bahan blend hingga naik bau dan garing sedikit.",
+      "Masukkan kacang panjang dahulu. Tumis sebentar hingga sedikit layu.",
+      "Tuangkan santan dan air secukupnya. Kacau rata dan biarkan mendidih perlahan.",
+      "Masukkan tempeh. Biarkan simmer hingga kacang panjang dan tempeh hampir masak.",
+      "Masukkan tahu kering dan su'un yang telah direndam. Kacau perlahan dan biarkan simmer hingga semua masak dan kuah sedikit pekat.",
+      "Perasakan dengan garam secukup rasa. Hidang panas dengan nasi putih."
+    ],
+    notes: "Rendam ikan bilis, tahu kering, dan su'un dahulu — kunci supaya semua masak sekata dan lembut bila dimasukkan lewat. Jangan biarkan santan mendidih kuat-kuat supaya tak pecah minyak. Sayur kering kampung style ni sedap simple je dengan nasi panas.",
+    fav: false
+  },
+  {
+    id: 29,
+    name: "Bun Bo Hue",
+    emoji: "🍜",
+    source: "own",
+    category: "Soup / Noodles",
+    time: "1.5–2 hrs",
+    servings: "3–4",
+    tags: ["Vietnamese", "Beef", "Pork", "Spicy", "Noodles", "Comfort Food"],
+    ingredients: [
+      "— PARBOIL —",
+      "1kg beef knuckle cubes + bones if you have",
+      "400–500g pork hock or pork trotter, cut into chunks",
+      "Water to cover (~2–2.5L)",
+      "1 tsp salt",
+      "2 tbsp white/rice vinegar",
+      "2 shallots, halved",
+      "3–4 slices fresh ginger",
+      "— CHAR —",
+      "1 large yellow onion, halved",
+      "40g fresh ginger, sliced into coins",
+      "— PRESSURE COOK —",
+      "Parboiled beef knuckle + bones + pork hock",
+      "Charred onion & ginger",
+      "4–5 stalks lemongrass, bruised and cut into 5cm lengths",
+      "Fresh water up to max line",
+      "1 tsp salt",
+      "15g rock sugar",
+      "— SPICE & COLOUR PASTE —",
+      "3 tbsp cooking oil",
+      "1 tbsp annatto seeds (hạt điều) OR 1 tbsp annatto oil",
+      "4 cloves garlic, minced",
+      "2 shallots, minced",
+      "2–3 stalks lemongrass, minced (white part only)",
+      "2–3 tbsp Vietnamese chili sate/sa tế (adjust to taste)",
+      "— SEASONING (MẮM RUỐC) —",
+      "3–4 tbsp mắm ruốc (fermented shrimp paste)",
+      "100ml water (to dissolve mắm ruốc)",
+      "— NOODLES —",
+      "300–360g dried thick round rice vermicelli (bún bò Huế noodles)",
+      "— STRAIN & SEASON —",
+      "3–4 tbsp fish sauce (adjust to taste)",
+      "Rock sugar to taste",
+      "Salt to taste",
+      "— ASSEMBLE (per bowl) —",
+      "Sliced beef shank/pork hock",
+      "Vietnamese sausage (chả lụa), sliced (optional)",
+      "Shredded banana blossom",
+      "Bean sprouts",
+      "Thinly sliced cabbage",
+      "Fresh coriander",
+      "Vietnamese mint (rau răm)",
+      "Perilla leaf (tía tô), if available",
+      "2 spring onions, sliced",
+      "Red chilli, sliced",
+      "Lime wedges",
+      "Extra chili sate, for topping"
+    ],
+    steps: [
+      "Parboil: Add beef knuckle + bones + pork hock to a pot with enough water to cover. Add 1 tsp salt, 2 tbsp vinegar, shallots, and ginger slices. Bring to a boil and boil for 5 minutes, removing scum as it rises. Drain, rinse the meat, and clean the pot.",
+      "Char: Char the halved onion and ginger slices directly over an open flame (or under a broiler) until lightly blackened on the outside.",
+      "Pressure cook: Add parboiled beef, bones, and pork hock + charred onion & ginger + bruised lemongrass stalks + fresh water up to the max line + 1 tsp salt + 15g rock sugar. Pressure cook on Meat/Stew High for 45 minutes. Natural release for 15 minutes.",
+      "Make the spice & colour paste: While the pressure cooker is running, heat 3 tbsp oil in a pan over low heat. Add annatto seeds and swirl until the oil turns deep red-orange, about 2–3 minutes, then strain out and discard the seeds (skip this step if using pre-made annatto oil). In the coloured oil, fry minced garlic, shallots, and minced lemongrass until fragrant. Stir in the chili sate. Cook for 2–3 minutes until the paste is fragrant and the oil separates slightly. Set aside.",
+      "Dissolve the mắm ruốc in 100ml water, stir well, then let it settle for a few minutes. Spoon off the clear liquid on top and discard the gritty sediment at the bottom — this clear mắm ruốc liquid is what goes into the broth.",
+      "Season the broth: After pressure release, remove the meat and set aside. Stir the spice & colour paste and the strained mắm ruốc liquid into the broth. Simmer on Sauté Low for 20–30 minutes, uncovered, to let the flavours meld.",
+      "Noodles: Soak dried bún bò Huế noodles in room temperature water for 20–30 minutes, then boil for 3–5 minutes until tender (thicker than regular pho noodles, so they take a little longer). Divide into serving bowls.",
+      "Strain & season: Taste the broth and season with fish sauce, rock sugar, and salt to taste — it should be savoury, a little sweet, and noticeably spicy from the chili sate.",
+      "Assemble: Slice the beef and pork hock. Layer noodles then sliced meat and chả lụa (if using) in each bowl. Pour over hot broth. Top with banana blossom, bean sprouts, cabbage, coriander, rau răm, perilla, and spring onion. Serve with lime wedges, sliced chilli, and extra chili sate on the side."
+    ],
+    notes: "Adapted from the Beef Pho recipe — same parboil/char/pressure cook base, but swaps the toasted pho spices (star anise, cloves, cinnamon, cardamom, fennel) for the signature Bun Bo Hue flavours: lots of lemongrass, mắm ruốc (fermented shrimp paste), annatto for colour, and chili sate for heat and depth. Pork hock is essential for the richer, fattier mouthfeel that sets this apart from pho. Rinse the mắm ruốc sediment out carefully — it's very pungent and gritty if added whole. Adjust chili sate to control spice level; Bun Bo Hue is traditionally quite spicy. If you can't find rau răm or perilla, mint and Thai basil are acceptable substitutes.",
+    fav: false
+  },
+  {
+    id: 28,
+    name: "Garlic Butter Grilled Cheese",
+    emoji: "🧀",
+    source: "web",
+    category: "Sandwich",
+    time: "15 mins",
+    servings: "1",
+    tags: ["Quick", "Vegetarian", "Comfort Food"],
+    ingredients: [
+      "2 bread slices",
+      "20g unsalted butter, softened",
+      "1 garlic clove, finely grated or minced",
+      "1 pinch flaky salt",
+      "45g cheddar cheese, sliced or grated",
+      "15g mozzarella, grated"
+    ],
+    steps: [
+      "Make garlic butter: Mash together the butter, garlic, and flaky salt until evenly combined.",
+      "Butter the bread: Spread the garlic butter evenly on one side of each bread slice — this side goes facing out on the pan.",
+      "Assemble: Place one slice butter-side down in a cold pan. Layer the cheddar and mozzarella on top, then close with the second slice, butter-side up.",
+      "Toast first side: Turn heat to medium-low and cook until deep golden and fragrant, checking often so the garlic doesn't scorch.",
+      "Flip and finish: Flip carefully and cook until the second side is golden and the cheese is fully melted and stretchy.",
+      "Serve: Rest for 1 minute off heat so the cheese sets slightly, then slice and serve hot."
+    ],
+    notes: "Mixing garlic straight into the butter (rather than sprinkling raw on the pan) stops it from burning and bittering while the bread toasts. Mozzarella adds the stretch, cheddar brings the flavour.",
+    fav: false
+  },
+  {
+    id: 27,
+    name: "Red Lentil Soup",
+    emoji: "🍲",
+    source: "own",
+    category: "Soup",
+    time: "35 mins",
+    servings: "4",
+    tags: ["Vegetarian", "Comfort Food", "Confinement", "Easy"],
+    ingredients: [
+      "200g red lentils, rinsed",
+      "1 medium onion, diced",
+      "3 garlic cloves, minced",
+      "10g fresh ginger, minced",
+      "2 tbsp olive oil or butter",
+      "1½ tsp ground cumin",
+      "1 tsp ground coriander",
+      "½ tsp turmeric",
+      "½ tsp smoked paprika",
+      "1 can chopped tomatoes (400g)",
+      "900ml vegetable or chicken stock",
+      "1 tbsp lemon juice",
+      "1 tsp salt",
+      "½ tsp black pepper"
+    ],
+    steps: [
+      "Heat olive oil or butter in a pot over medium heat. Add onion and cook for 5–6 minutes until soft and golden. Add garlic and ginger, cook for another minute until fragrant.",
+      "Add ground cumin, coriander, turmeric, and smoked paprika. Stir into the onion mixture and cook for 1 minute — toasting the spices in the oil makes a big difference to depth of flavour.",
+      "Pour in chopped tomatoes and stir. Add the rinsed lentils and stock. Stir everything together and bring to a boil.",
+      "Reduce heat to medium-low and simmer uncovered for 20–25 minutes, stirring occasionally, until lentils are completely soft and starting to dissolve into the soup.",
+      "Use an immersion blender to partially blend the soup — blitz about half for a creamy-but-textured consistency. Alternatively blend all of it for fully smooth. Add lemon juice, salt, and pepper. Taste and adjust.",
+      "Ladle into bowls. Optional: drizzle with olive oil, a pinch of chilli flakes, or a spoonful of yogurt on top. Serve hot with thick slices of sourdough."
+    ],
+    notes: "Red lentils dissolve as they cook — no soaking needed, just rinse well. Partial blending gives the best texture: creamy but not totally smooth. The lemon at the end is important — brightens the whole soup. If you have cumin seeds instead of powder, toast them whole in the oil before the onion for extra flavour. Keeps well in the fridge 3–4 days and thickens overnight — just add a splash of water when reheating.",
+    fav: false
+  },
+  {
     id: 26,
     name: "Udang Masala",
     emoji: "🍤",
     source: "mum",
     category: "Lauk Melayu",
-    time: "45 minit",
+    time: "45 mins",
     servings: "4",
     tags: ["Malaysian", "Seafood", "Pedas", "Rempah"],
     ingredients: [
@@ -632,7 +881,7 @@ let recipes = loadRecipes() || [
       "Tutup api. Hidang dengan nasi briyani atau nasi putih."
     ],
     notes: "Resepi Ibu. Perap udang sekurang-kurangnya 1 jam — lebih lama lebih sebati rasa. Goreng udang dulu sebelum masuk kuah supaya udang tak lembik. Sedap sangat jika dihidang sekali dengan Nasi Briyani Ibu.",
-    fav: true
+    fav: false
   },
   {
     id: 25,
@@ -640,9 +889,9 @@ let recipes = loadRecipes() || [
     emoji: "🍚",
     source: "mum",
     category: "Nasi",
-    time: "1 jam",
+    time: "1 hr",
     servings: "4–6",
-    tags: ["Malaysian", "Briyani", "Basmati", "Family Recipe"],
+    tags: ["Confinement", "Malaysian", "Briyani", "Basmati", "Family Recipe"],
     ingredients: [
       "1kg beras basmati (cuci dan rendam ½ jam, toskan)",
       "Air ikut sukatan beras",
@@ -668,7 +917,7 @@ let recipes = loadRecipes() || [
       "Masukkan beras basmati yang telah ditos. Masak seperti biasa dalam periuk elektrik hingga nasi masak."
     ],
     notes: "Resepi Ibu. Kunci briyani yang sedap — tumis rempah dengan ghee dulu sebelum masuk periuk. Daun pudina dan ketumbar segar bagi aroma yang sangat wangi. Sedap dihidang sekali dengan Udang Masala Ibu.",
-    fav: true
+    fav: false
   },
   {
     id: 24,
@@ -676,7 +925,7 @@ let recipes = loadRecipes() || [
     emoji: "🍜",
     source: "mum",
     category: "Mee",
-    time: "1 jam 30 minit",
+    time: "1 hr 30 mins",
     servings: "6–8",
     tags: ["Malaysian", "Mee", "Kuah Pekat", "Family Recipe"],
     ingredients: [
@@ -712,7 +961,7 @@ let recipes = loadRecipes() || [
       "Hidang dengan mee kuning, tauge, telur rebus, tahu goreng, dan bawang goreng."
     ],
     notes: "Resepi Ibu. Keledek adalah rahsia kuah mee rebus yang pekat dan manis semula jadi — jangan skip! Bancuhan tepung mesti cair dan kacau sambil tuang supaya kuah tak berketul. Air rebusan daging bagi kuah lebih berperisa.",
-    fav: true
+    fav: false
   },
   {
     id: 23,
@@ -720,7 +969,7 @@ let recipes = loadRecipes() || [
     emoji: "🫘",
     source: "mum",
     category: "Lauk Melayu",
-    time: "40 minit",
+    time: "40 mins",
     servings: "4–6",
     tags: ["Malaysian", "Kacang", "Comfort Food", "Family Recipe"],
     ingredients: [
@@ -752,7 +1001,7 @@ let recipes = loadRecipes() || [
       "Tutup api. Hidang dengan taburan bawang dadu dan cili hijau."
     ],
     notes: "Resepi Ibu. Kacang phool jangan kisar terlalu halus — nak ada tekstur. Rempah bunga (kayu manis, pelaga, cengkih) cuma untuk naikkan bau, boleh skip kalau tiada. Sedap dimakan dengan roti canai atau nasi.",
-    fav: true
+    fav: false
   },
   {
     id: 22,
@@ -760,7 +1009,7 @@ let recipes = loadRecipes() || [
     emoji: "🌶️",
     source: "mum",
     category: "Sambal",
-    time: "45 minit",
+    time: "45 mins",
     servings: "8–10",
     tags: ["Malaysian", "Sambal", "Pedas", "Condiment"],
     ingredients: [
@@ -778,7 +1027,7 @@ let recipes = loadRecipes() || [
       "Biar sejuk sebelum simpan dalam bekas kedap udara."
     ],
     notes: "Resepi Ibu. Nisbah asas: 150g cili kering : 150g bawang : 30g bawang putih : 50g belacan. Sambal mesti masak betul-betul — minyak kena naik dan warna kena gelap. Boleh simpan dalam peti sejuk beberapa minggu. Guna sebagai asas untuk pelbagai masakan.",
-    fav: true
+    fav: false
   },
   {
     id: 21,
@@ -786,9 +1035,9 @@ let recipes = loadRecipes() || [
     emoji: "🟢",
     source: "mum",
     category: "Dessert",
-    time: "45 minit",
+    time: "45 mins",
     servings: "4",
-    tags: ["Malaysian", "Dessert", "Sweet", "Comfort Food"],
+    tags: ["Confinement", "Malaysian", "Dessert", "Sweet", "Comfort Food"],
     ingredients: [
       "1 cawan kacang hijau",
       "Daun pandan, diikat",
@@ -806,7 +1055,7 @@ let recipes = loadRecipes() || [
       "Hidang panas atau sejuk."
     ],
     notes: "Resepi Ibu. Daun pandan wajib ada — bagi aroma yang sangat wangi. Rebus kacang sampai betul-betul kembang dulu sebelum tambah gula, kalau tidak kacang susah nak empuk. Pekat atau cair ikut selera.",
-    fav: true
+    fav: false
   },
   {
     id: 20,
@@ -814,9 +1063,9 @@ let recipes = loadRecipes() || [
     emoji: "🍗",
     source: "mum",
     category: "Lauk Melayu",
-    time: "30 minit + perap",
+    time: "30 mins + marinate",
     servings: "4–6",
-    tags: ["Malaysian", "Chicken", "Goreng", "Family Recipe"],
+    tags: ["Confinement", "Malaysian", "Chicken", "Goreng", "Family Recipe"],
     ingredients: [
       "2kg ayam, potong ikut suka",
       "1½ sudu teh serbuk ketumbar (coriander powder)",
@@ -833,7 +1082,7 @@ let recipes = loadRecipes() || [
       "Toskan minyak. Hidang panas."
     ],
     notes: "Resepi Ibu — sukatan untuk 2kg ayam. Perap lama kunci rasa yang meresap. Kunyit bagi warna emas yang cantik. Simple tapi sedap!",
-    fav: true
+    fav: false
   },
   {
     id: 19,
@@ -841,7 +1090,7 @@ let recipes = loadRecipes() || [
     emoji: "🌭",
     source: "mum",
     category: "Sos / Condiment",
-    time: "15 minit",
+    time: "15 mins",
     servings: "8–10",
     tags: ["Malaysian", "Sos", "Roti John", "Sweet"],
     ingredients: [
@@ -859,7 +1108,7 @@ let recipes = loadRecipes() || [
       "Sejukkan sebelum guna. Simpan dalam botol kedap udara."
     ],
     notes: "Resepi Ibu. Petis adalah bahan rahsia yang bagi sos ni rasa umami yang dalam. Guna cuka atau limau kasturi — dua-dua okay, tapi limau kasturi bagi rasa lebih segar. Sedap sangat untuk roti john, burger, atau sebagai dipping sauce.",
-    fav: true
+    fav: false
   },
   {
     id: 18,
@@ -867,7 +1116,7 @@ let recipes = loadRecipes() || [
     emoji: "🐠",
     source: "mum",
     category: "Masakan Melayu",
-    time: "30 minit",
+    time: "30 mins",
     servings: "4",
     tags: ["Malaysian", "Ikan", "Masam", "Pedas"],
     ingredients: [
@@ -892,7 +1141,7 @@ let recipes = loadRecipes() || [
       "Rasa dan laraskan manis, masam, dan masin. Hidang panas dengan nasi."
     ],
     notes: "Resepi Ibu. Masak tanpa menumis dulu — blend terus masuk dalam air dan didihkan. Nanas bagi rasa masam manis yang semula jadi. Asam keping tambah lagi rasa masam yang khas. Cili segar vs cili kering akan bagi warna dan rasa yang berbeza — cili kering lebih pekat warnanya.",
-    fav: true
+    fav: false
   },
   {
     id: 17,
@@ -900,9 +1149,9 @@ let recipes = loadRecipes() || [
     emoji: "🍛",
     source: "mum",
     category: "Curry",
-    time: "1 jam 15 minit",
+    time: "1 hr 15 mins",
     servings: "4",
-    tags: ["Malaysian", "Beef", "Curry", "Family Recipe"],
+    tags: ["Confinement", "Malaysian", "Beef", "Curry", "Family Recipe"],
     ingredients: [
       "500g daging, potong kiub",
       "5 sudu besar rempah kari daging",
@@ -929,7 +1178,7 @@ let recipes = loadRecipes() || [
       "Hidang panas dengan nasi putih atau roti."
     ],
     notes: "Resepi Ibu — sukatan untuk 500g daging. Tip Ibu: masukkan kentang lewat supaya tidak hancur. Kalau tiada chopper, hiris bawang, hancurkan bawang putih dengan pisau, dan titik halia je — semua okay. Brand rempah kari penting — Baba's atau Adabi pilihan terbaik.",
-    fav: true
+    fav: false
   },
   {
     id: 16,
@@ -937,7 +1186,7 @@ let recipes = loadRecipes() || [
     emoji: "🐚",
     source: "mum",
     category: "Masakan Melayu",
-    time: "45 minit",
+    time: "45 mins",
     servings: "4",
     tags: ["Malaysian", "Seafood", "Lemak", "Santan"],
     ingredients: [
@@ -967,7 +1216,7 @@ let recipes = loadRecipes() || [
       "Hidang dengan ikan selah kuning goreng."
     ],
     notes: "Cara nak tahu siput hidup atau mati: letak dalam air, yang hidup akan memanjat keluar. Gunting hujung siput adalah kunci — senang nak sedut dan kuah masuk dalam siput. Tumis tanpa minyak bagi tumis lebih pekat dan kering — pecah minyak dulu baru masuk siput. Keladi dikukus berasingan supaya tak hancur dalam lemak.",
-    fav: true
+    fav: false
   },
   {
     id: 15,
@@ -975,7 +1224,7 @@ let recipes = loadRecipes() || [
     emoji: "🐟",
     source: "tiktok",
     category: "Sup Thai",
-    time: "30 minit",
+    time: "30 mins",
     servings: "3–4",
     tags: ["Thai", "Sup", "Santan", "Pedas Masam"],
     ingredients: [
@@ -1014,7 +1263,7 @@ let recipes = loadRecipes() || [
     emoji: "🍋",
     source: "tiktok",
     category: "Sup Thai",
-    time: "35 minit",
+    time: "35 mins",
     servings: "3–4",
     tags: ["Thai", "Sup", "Masam", "Pedas"],
     ingredients: [
@@ -1075,7 +1324,7 @@ let recipes = loadRecipes() || [
       "4 star anise",
       "3 whole cloves",
       "1 cinnamon stick",
-      "2 cardamom pods, lightly crushed",
+      "2 black cardamom pods, lightly crushed (sub green cardamom if unavailable)",
       "1 tsp coriander seeds",
       "½ tsp fennel seeds",
       "— NOODLES —",
@@ -1097,7 +1346,7 @@ let recipes = loadRecipes() || [
       "Parboil: Add beef knuckle + bones (if using) to a pot with enough water to cover. Add 1 tsp salt, 2 tbsp vinegar, shallots, and ginger slices. Bring to a boil and boil for 5 minutes, removing scum as it rises. Drain, rinse the beef, and clean the pot.",
       "Char: Char the halved onion and ginger slices directly over an open flame (or under a broiler) until lightly blackened on the outside.",
       "Pressure cook: Add parboiled beef + charred onion & ginger + fresh water up to the max line + 1 tsp salt + 15g rock sugar. Pressure cook on Meat/Stew High for 45 minutes. Natural release for 15 minutes.",
-      "Toast spices: While the pressure cooker is running, dry toast star anise, cloves, cinnamon, cardamom, coriander seeds, and fennel seeds in a dry pan over medium heat until fragrant. Set aside.",
+      "Toast spices: While the pressure cooker is running, dry toast star anise, cloves, cinnamon, black cardamom, coriander seeds, and fennel seeds in a dry pan over medium heat until fragrant. Set aside.",
       "Infuse spices: After pressure release, add the toasted spices to the broth (in a spice bag or loose). Simmer on Sauté Low for 20–30 minutes.",
       "Noodles: Either soak dried noodles in room temperature water for 20–30 minutes then boil for 1–2 minutes, or boil directly in boiling water for 3–4 minutes. Divide into serving bowls.",
       "Strain & season: Remove the spice bag, then strain the broth. Season with fish sauce, rock sugar, and salt to taste.",
@@ -1292,7 +1541,7 @@ let recipes = loadRecipes() || [
     category: "Curry",
     time: "50 mins",
     servings: "4",
-    tags: ["Japanese", "Chicken", "Comfort Food"],
+    tags: ["Confinement", "Japanese", "Chicken", "Comfort Food"],
     ingredients: [
       "1 whole chicken, cut into pieces",
       "1.5 litres Japanese curry liquid (e.g. S&B or House Vermont)",
@@ -1363,17 +1612,17 @@ let recipes = loadRecipes() || [
       "Serve hot! Great wrapped in iceberg lettuce leaves and dipped in the nuoc cham."
     ],
     notes: "Based on @AlissaNguyenWon's TikTok recipe, scaled for 35–40 rolls. Fish sauce is added to the filling for deeper flavour. All weights are in grams; bean thread noodle weight is dry/before soaking. If allergic to shrimp, use 720g ground meat total.",
-    fav: true
+    fav: false
   },
   {
     id: 5,
-    name: "Mum's Beef Curry (Kari Daging)",
+    name: "Ibu's Beef Curry (Kari Daging)",
     emoji: "🍛",
     source: "mum",
     category: "Curry",
     time: "1 hr 15 mins",
     servings: "4",
-    tags: ["Malaysian", "Beef", "Spicy", "Family Recipe"],
+    tags: ["Confinement", "Malaysian", "Beef", "Spicy", "Family Recipe"],
     ingredients: [
       "500g beef, cut into chunks",
       "5 tbsp meat curry powder (rempah kari daging)",
@@ -1399,18 +1648,18 @@ let recipes = loadRecipes() || [
       "Taste and adjust salt. Add coconut milk if using, stir through and simmer for 2 more minutes.",
       "Serve hot with white rice or roti."
     ],
-    notes: "Mum's tip: always add potatoes late so they don't turn mushy. If you don't have a chopper, just slice the onions, crush the garlic with a knife, and smash the ginger — it all works. The curry powder brand matters a lot; Baba's or Adabi are solid choices.",
-    fav: true
+    notes: "Ibu's tip: always add potatoes late so they don't turn mushy. If you don't have a chopper, just slice the onions, crush the garlic with a knife, and smash the ginger — it all works. The curry powder brand matters a lot; Baba's or Adabi are solid choices.",
+    fav: false
   },
   {
     id: 1,
-    name: "Mum's Nasi Lemak",
+    name: "Ibu's Nasi Lemak",
     emoji: "🍚",
     source: "mum",
     category: "Rice",
     time: "1 hr",
     servings: "4",
-    tags: ["Malaysian", "Classic", "Weekend"],
+    tags: ["Confinement", "Malaysian", "Classic", "Weekend"],
     ingredients: [
       "2 cups jasmine rice",
       "1 can coconut milk",
@@ -1426,8 +1675,8 @@ let recipes = loadRecipes() || [
       "Fluff with fork and remove pandan & lemongrass.",
       "Serve warm with sambal, fried anchovies, half a boiled egg, and cucumber slices."
     ],
-    notes: "Mum always says the pandan leaves make all the difference — don't skip them! Leftover rice tastes even better the next day.",
-    fav: true
+    notes: "Ibu always says the pandan leaves make all the difference — don't skip them! Leftover rice tastes even better the next day.",
+    fav: false
   },
   {
     id: 2,
@@ -1484,7 +1733,7 @@ let recipes = loadRecipes() || [
       "Pile onto toast. Top with chives and hot sauce if desired."
     ],
     notes: "Low and slow is the key! High heat makes eggs rubbery. I like mine just barely set — almost custardy.",
-    fav: true
+    fav: false
   },
   {
     id: 4,
@@ -1535,6 +1784,7 @@ function renderRecipes() {
     const matchFilter =
       currentFilter === 'all' ? true :
       currentFilter === 'fav' ? r.fav :
+      currentFilter === 'confinement' ? r.tags.some(t => t.toLowerCase() === 'confinement') :
       r.source === currentFilter;
     return matchSearch && matchFilter;
   });
