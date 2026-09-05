@@ -742,7 +742,7 @@ const GROUP_KEYWORDS = [
   ['seafood', ['seafood','ikan','fish','udang','prawn','shrimp','ketam','crab','sotong','squid','siput','siakap','pla']],
   ['meat',    ['beef','chicken','ayam','daging','pork','babi','kambing','lamb','turkey','duck','sausage','gai']],
   ['vege',    ['vegetarian','sayur','vegetable','tofu','tauhu','lentil','kacang']],
-  ['bread',   ['bread','bagel','dumpling','snack','toast','pastry']],
+  ['bread',   ['bread','bagel','dumpling','snack','toast','pastry','waffle','pancake']],
   ['rice',    ['rice','nasi','noodle','mee','bihun','pasta','briyani']],
 ];
 
@@ -772,6 +772,273 @@ function saveRecipes() {
 }
 
 let recipes = loadRecipes() || [
+  {
+    id: 41,
+    name: "Ginger Beer (Ginger Bug)",
+    emoji: "🫚",
+    source: "own",
+    category: "Drinks",
+    time: "3–4 days (fermentation)",
+    servings: "~1L",
+    tags: ["Fermented", "Drink", "Ginger", "Big Batch"],
+    ingredients: [
+      "100g ginger bug (active starter)",
+      "200g fresh ginger, grated",
+      "1000g (1L) water",
+      "100g sugar",
+      "20g lemon juice"
+    ],
+    steps: [
+      "Combine the grated ginger, sugar, and water in a clean jar or bottle. Stir until the sugar dissolves.",
+      "Stir in the ginger bug starter.",
+      "Cover with a cloth or loose lid (don't seal tightly) and leave at room temperature for 2–3 days, stirring once a day, until fizzy and tangy.",
+      "Strain out the ginger solids, stir in the lemon juice, then transfer to a bottle with a tight lid for a 1–2 day secondary fermentation.",
+      "Refrigerate to slow fermentation, then serve chilled. Burp bottles daily during secondary fermentation to release pressure."
+    ],
+    notes: "Fermentation steps weren't on the original note — only the ratios were, so this follows the standard ginger bug method. Double-check the 100g sugar amount against your usual recipe, it was a little unclear on the photo.",
+    fav: false
+  },
+  {
+    id: 40,
+    name: "Salted Caramel Popcorn",
+    emoji: "🍿",
+    source: "own",
+    category: "Snacks",
+    time: "45 mins",
+    servings: "1 batch",
+    tags: ["Dessert", "Snack", "Sweet", "Popcorn"],
+    ingredients: [
+      "200g sugar",
+      "65g water",
+      "85g butter",
+      "4g salt",
+      "3g baking soda",
+      "Popped popcorn and/or nuts, to coat"
+    ],
+    steps: [
+      "Combine sugar and water in a pot. Cook over medium heat until it turns amber (deep golden caramel colour).",
+      "Remove from heat and stir in the butter until melted and combined.",
+      "Add the salt and baking soda — it will foam up, that's normal.",
+      "Quickly pour the caramel over the popcorn (and nuts, if using), tossing to coat evenly while still hot.",
+      "Spread onto a lined baking tray and bake at 130°C for 30–45 minutes, tossing every 10–15 minutes to keep it crisp and stop it burning.",
+      "Let cool completely before breaking apart and serving."
+    ],
+    notes: "Baking soda makes the caramel foam and turns it light and crunchy rather than a hard, sticky shell — don't skip it. One word in the title was hard to read on the original note ('Modena'?) — worth double-checking.",
+    fav: false
+  },
+  {
+    id: 39,
+    name: "McMuffin Chicken Patties",
+    emoji: "🍗",
+    source: "own",
+    category: "Chicken",
+    time: "25 mins",
+    servings: "8–10 patties",
+    tags: ["Chicken", "Fried", "Breakfast", "Homemade"],
+    ingredients: [
+      "500g minced chicken",
+      "1 tsp salt",
+      "1.5 tsp onion powder",
+      "1.5 tsp garlic powder (or grated garlic)",
+      "1.5 tsp black pepper",
+      "— COATING —",
+      "1 egg, beaten with a pinch of paprika",
+      "Corn flour or bread crumbs, for coating",
+      "Oil, for frying"
+    ],
+    steps: [
+      "Mix the minced chicken with salt, onion powder, garlic powder, and black pepper until well combined.",
+      "Shape into 8–10 patties.",
+      "Dip each patty into the beaten egg-and-paprika mixture, then coat in corn flour or bread crumbs.",
+      "Pan-fry or shallow fry over medium heat until golden and cooked through, a few minutes per side.",
+      "Serve hot, sandwiched in the McMuffin bread rolls below."
+    ],
+    notes: "Pairs with the McMuffin bread rolls for a homemade chicken McMuffin. Steps aren't from the original note — only the seasoning ratios were written down.",
+    fav: false
+  },
+  {
+    id: 38,
+    name: "McMuffin (Bread Rolls)",
+    emoji: "🍞",
+    source: "own",
+    category: "Bread",
+    time: "2 hrs",
+    servings: "6–7 pcs",
+    tags: ["Bread", "Baked", "Breakfast", "Homemade"],
+    ingredients: [
+      "230g bread flour",
+      "50g warm water",
+      "70g milk",
+      "1 tsp yeast",
+      "1 tsp salt",
+      "1 tbsp honey",
+      "23g oil",
+      "1 egg",
+      "Cornmeal or semolina, for dusting"
+    ],
+    steps: [
+      "Combine bread flour, warm water, milk, yeast, salt, honey, oil, and egg in a bowl. Mix and knead until a smooth, elastic dough forms.",
+      "Cover and let the dough bulk proof until doubled in size.",
+      "Divide into 6–7 equal pieces and shape into rounds. Dust both sides with cornmeal or semolina.",
+      "Let proof again until puffy.",
+      "Cook on a dry griddle or non-stick pan over low-medium heat, a few minutes per side, until golden brown and cooked through inside."
+    ],
+    notes: "Steps aren't from the original note — only the dough ratios were written down — so this follows the standard stovetop English-muffin method.",
+    fav: false
+  },
+  {
+    id: 37,
+    name: "Shio Pan",
+    emoji: "🥐",
+    source: "own",
+    category: "Bread",
+    time: "3 hrs",
+    servings: "18–20 pcs",
+    tags: ["Japanese", "Bread", "Baked", "Butter"],
+    ingredients: [
+      "668g bread flour",
+      "82g cake flour",
+      "37g sugar",
+      "14.5g salt",
+      "43g skimmed milk powder",
+      "5–7g yeast",
+      "483g water",
+      "57g butter, softened",
+      "— TOPPING —",
+      "Extra butter, cut into small batons",
+      "Flaky salt"
+    ],
+    steps: [
+      "Combine bread flour, cake flour, sugar, salt, skimmed milk powder, and yeast in a mixing bowl. Add the water and mix to form a shaggy dough.",
+      "Knead in the softened butter and continue kneading until the dough is smooth and elastic.",
+      "Bulk proof until roughly doubled in size.",
+      "Divide the dough into 18–20 pieces. Shape each into a torpedo/crescent shape.",
+      "Place a small baton of butter into the crease of each roll and proof again until puffy.",
+      "Sprinkle with flaky salt and bake in a preheated oven until golden — the butter should melt out slightly and caramelise on the tray."
+    ],
+    notes: "Steps aren't from the original note — only the dough ratios were written down — so this follows the standard shio pan method with a butter-and-salt topping. Adjust bake time/temp to your oven.",
+    fav: false
+  },
+  {
+    id: 36,
+    name: "Pandan Teh",
+    emoji: "🍵",
+    source: "own",
+    category: "Drinks",
+    time: "30 mins",
+    servings: "~3–4L",
+    tags: ["Malaysian", "Tea", "Pandan", "Big Batch"],
+    ingredients: [
+      "— PANDAN WATER —",
+      "3L water",
+      "Pandan leaves, a bundle",
+      "— TEA —",
+      "12 tbsp tea dust",
+      "— MILK BASE —",
+      "1 can evaporated milk",
+      "Condensed milk, to taste"
+    ],
+    steps: [
+      "Boil 3L water with pandan leaves. Simmer for 10–15 minutes, then remove the pandan.",
+      "Scoop out the boiling pandan water and pour it over 12 tbsp tea dust. Steep for 3–5 minutes, then strain.",
+      "Milk base: stir in the evaporated milk, then add condensed milk and adjust sweetness to taste.",
+      "Combine the brewed tea with the milk base and adjust the balance of tea, milk, and sugar to your liking."
+    ],
+    notes: "Milk quantities weren't fully legible on the original note — start with 1 can evaporated milk and adjust condensed milk to taste, same idea as the regular Teh recipe.",
+    fav: false
+  },
+  {
+    id: 35,
+    name: "Goreng Pisang",
+    emoji: "🍌",
+    source: "own",
+    category: "Snacks",
+    time: "20 mins",
+    servings: "4",
+    tags: ["Malaysian", "Fried", "Snack", "Banana"],
+    ingredients: [
+      "120g rice flour",
+      "60g plain flour",
+      "5g salt",
+      "140g water",
+      "1 tsp kapo",
+      "1 tbsp sugar, whisked with egg yolk",
+      "Ripe bananas (pisang), sliced",
+      "Oil, for deep frying"
+    ],
+    steps: [
+      "Whisk together the rice flour, plain flour, and salt in a bowl.",
+      "Add the water, kapo, and the egg yolk–sugar mixture. Whisk until you get a smooth, lump-free batter.",
+      "Heat oil for deep frying over medium heat.",
+      "Dip banana slices into the batter, coating fully, then lower into the hot oil.",
+      "Fry until golden brown and crisp on both sides, turning occasionally. Drain on a wire rack or paper towels.",
+      "Serve hot."
+    ],
+    notes: "Steps aren't from the original note — only the batter ratios were written down. 'Kapo' — please confirm if this means kapur/air kapur (pickling lime water), a common crisping trick for fritter batters.",
+    fav: false
+  },
+  {
+    id: 34,
+    name: "Focaccia (Instant, Same Day)",
+    emoji: "🫓",
+    source: "own",
+    category: "Bread",
+    time: "~2 hrs (same-day)",
+    servings: "1 tray",
+    tags: ["Bread", "Baked", "Italian", "Same-Day"],
+    ingredients: [
+      "600g bread flour",
+      "480g water",
+      "12g salt",
+      "10g extra virgin olive oil (EVOO)",
+      "7g instant yeast"
+    ],
+    steps: [
+      "Combine all ingredients — bread flour, water, salt, EVOO, and yeast — in a bowl until no dry flour remains.",
+      "Autolyse: let the dough rest for 15 minutes.",
+      "Stretch & fold the dough in the bowl, 3 times with about 30 minutes between each fold.",
+      "Transfer to an oiled tray, fold and dimple with oiled fingers to shape, then leave for a final proof of about 40 minutes.",
+      "Bake at 220°C for 30 minutes until deep golden."
+    ],
+    notes: "Same-day instant-yeast version — no overnight cold proof needed. Drizzle with extra olive oil and flaky salt before baking if you like. The final proof time (40 min) was a little unclear on the original note — double-check against your usual timing.",
+    fav: false
+  },
+  {
+    id: 33,
+    name: "Buttermilk Waffles",
+    emoji: "🧇",
+    source: "own",
+    category: "Breakfast",
+    time: "30 mins",
+    servings: "4–5 waffles",
+    tags: ["Breakfast", "Waffles", "Homemade", "Buttermilk"],
+    ingredients: [
+      "— DRY MIX —",
+      "180g AP flour",
+      "60g corn flour",
+      "1 tbsp (7g) baking powder",
+      "1 tsp (6g) salt",
+      "— WET MIX —",
+      "3 egg yolks",
+      "25g sugar",
+      "400g buttermilk",
+      "2g vanilla",
+      "100g butter, melted",
+      "— MERINGUE —",
+      "3 egg whites",
+      "25g sugar"
+    ],
+    steps: [
+      "Dry mix: in a bowl, whisk together the AP flour, corn flour, baking powder, and salt.",
+      "Wet mix: in a separate bowl, whisk the egg yolks with 25g sugar, then add the buttermilk, vanilla, and melted butter. Whisk until smooth.",
+      "Pour the wet mix into the dry mix and fold together until just combined — a few lumps are fine.",
+      "Meringue: in a clean bowl, beat the egg whites with the remaining 25g sugar until stiff peaks form.",
+      "Gently fold the meringue into the batter in two additions, keeping as much air in as possible.",
+      "Cook in a preheated waffle iron according to your machine's instructions until golden and crisp."
+    ],
+    notes: "Folding in whipped egg whites is what makes these extra light and crisp — don't overmix once they're in. Time and servings are estimates since they weren't on the original note.",
+    fav: false
+  },
   {
     id: 32,
     name: "Asam Pedas",
