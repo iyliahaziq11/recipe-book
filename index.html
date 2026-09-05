@@ -147,6 +147,17 @@ transition: background 0.15s, transform 0.1s;
 white-space: nowrap;
 }
 .chip.active, .chip:hover { background: var(--yellow); transform: translateY(-1px); }
+.chip-select {
+padding: 6px 14px;
+border-radius: 30px;
+border: 2.5px solid var(--ink);
+font-family: 'Nunito', sans-serif;
+font-weight: 700;
+font-size: 0.8rem;
+cursor: pointer;
+background: #fff;
+color: var(--ink);
+}
 
 main {
 max-width: 900px;
@@ -563,12 +574,35 @@ main { padding: 1.25rem; }
   <div class="toolbar-inner" style="margin-top:10px;">
     <div class="filter-chips">
       <span class="view-label">View:</span>
-      <button class="chip view-chip active" data-view="cards" onclick="setView('cards',this)">🗂 Cards</button>
+      <button class="chip view-chip" data-view="cards" onclick="setView('cards',this)">🗂 Cards</button>
       <button class="chip view-chip" data-view="rows" onclick="setView('rows',this)">☰ Rows</button>
-      <button class="chip view-chip" data-view="tiles" onclick="setView('tiles',this)">▦ Tiles</button>
+      <button class="chip view-chip active" data-view="tiles" onclick="setView('tiles',this)">▦ Tiles</button>
     </div>
     <div class="filter-chips">
-      <button class="chip" id="groupToggle" onclick="toggleGroup(this)">📂 Group by Category</button>
+      <button class="chip active" id="groupToggle" onclick="toggleGroup(this)">📂 Group by Category</button>
+    </div>
+  </div>
+  <div class="toolbar-inner" style="margin-top:10px;">
+    <div class="filter-chips">
+      <span class="view-label">Cuisine:</span>
+      <select class="chip-select" id="cuisineSelect" onchange="setCuisine(this.value)">
+        <option value="all">All</option>
+        <option value="Malaysian">🇲🇾 Malaysian</option>
+        <option value="Vietnamese">🇻🇳 Vietnamese</option>
+        <option value="Thai">🇹🇭 Thai</option>
+        <option value="Japanese">🇯🇵 Japanese</option>
+        <option value="Chinese">🇨🇳 Chinese</option>
+        <option value="Italian">🇮🇹 Italian</option>
+      </select>
+      <span class="view-label">Sort:</span>
+      <select class="chip-select" id="sortSelect" onchange="setSort(this.value)">
+        <option value="default">🕒 Recently Added</option>
+        <option value="az">🔤 A–Z</option>
+        <option value="quick">⚡ Quickest First</option>
+      </select>
+    </div>
+    <div class="filter-chips">
+      <button class="chip" id="quickToggle" onclick="toggleQuick(this)">⚡ Quick (≤30 min)</button>
     </div>
   </div>
 </div>
@@ -667,8 +701,26 @@ const TAG_COLORS    = ['#ffe066','#ffb3c6','#b5ead7','#a0d8ef','#c9b8f5','#ffbe7
 
 let currentFilter = 'all';
 let editingId = null;
-let currentView = 'cards';       // 'cards' | 'rows' | 'tiles'
-let groupByCategory = false;
+let currentView = 'tiles';       // 'cards' | 'rows' | 'tiles'
+let groupByCategory = true;
+let cuisineFilter = 'all';
+let sortMode = 'default';        // 'default' | 'az' | 'quick'
+let quickOnly = false;
+
+// Best-effort parse of a free-text `time` field (e.g. "1 hr 15 mins",
+// "1.5–2 hrs", "30 mins + marinate") into a minute count. Ranges use the
+// upper bound so the Quick filter stays conservative. Returns null when
+// nothing parseable is found.
+function estimateMinutes(timeStr) {
+  if (!timeStr) return null;
+  const s = timeStr.toLowerCase();
+  const hrMatch = s.match(/(\d+(?:\.\d+)?)\s*(?:[–-]\s*(\d+(?:\.\d+)?))?\s*hrs?\b/);
+  const minMatch = s.match(/(\d+)\s*(?:[–-]\s*(\d+))?\s*mins?\b/);
+  if (!hrMatch && !minMatch) return null;
+  const hrs = hrMatch ? parseFloat(hrMatch[2] || hrMatch[1]) : 0;
+  const mins = minMatch ? parseInt(minMatch[2] || minMatch[1], 10) : 0;
+  return Math.round(hrs * 60 + mins);
+}
 
 const GROUPS = [
   { key: 'meat',    name: 'Meat',                icon: '🍖' },
@@ -1915,6 +1967,22 @@ function toggleGroup(el) {
   renderRecipes();
 }
 
+function setCuisine(v) {
+  cuisineFilter = v;
+  renderRecipes();
+}
+
+function setSort(v) {
+  sortMode = v;
+  renderRecipes();
+}
+
+function toggleQuick(el) {
+  quickOnly = !quickOnly;
+  el.classList.toggle('active', quickOnly);
+  renderRecipes();
+}
+
 function fullCardHtml(r) {
   const tagHtml = r.tags.slice(0,3).map((t,i) =>
     `<span class="card-tag" style="background:${TAG_COLORS[i%TAG_COLORS.length]}">${t}</span>`
@@ -1978,8 +2046,25 @@ function renderRecipes() {
       currentFilter === 'fav' ? r.fav :
       currentFilter === 'confinement' ? r.tags.some(t => t.toLowerCase() === 'confinement') :
       r.source === currentFilter;
-    return matchSearch && matchFilter;
+    const matchCuisine = cuisineFilter === 'all' ||
+      r.tags.some(t => t.toLowerCase() === cuisineFilter.toLowerCase());
+    const mins = estimateMinutes(r.time);
+    const matchQuick = !quickOnly || (mins !== null && mins <= 30);
+    return matchSearch && matchFilter && matchCuisine && matchQuick;
   });
+
+  if (sortMode === 'az') {
+    filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortMode === 'quick') {
+    filtered = [...filtered].sort((a, b) => {
+      const ma = estimateMinutes(a.time), mb = estimateMinutes(b.time);
+      if (ma === null && mb === null) return 0;
+      if (ma === null) return 1;
+      if (mb === null) return -1;
+      return ma - mb;
+    });
+  }
+  // sortMode === 'default' keeps recipes in array order (newest added first)
 
   const grid = document.getElementById('recipeGrid');
   const empty = document.getElementById('emptyState');
