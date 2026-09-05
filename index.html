@@ -92,6 +92,29 @@ text-decoration: none;
 .btn-secondary { background: #fff; color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
 .btn-secondary:hover { box-shadow: 5px 5px 0 var(--ink); transform: translate(-1px,-1px); }
 
+.book-switch {
+display: flex;
+justify-content: center;
+gap: 10px;
+background: #fff;
+border-bottom: 3px solid var(--ink);
+padding: 14px;
+}
+.book-btn {
+padding: 10px 24px;
+border-radius: 30px;
+border: 2.5px solid var(--ink);
+font-family: 'Fredoka One', cursive;
+font-size: 1rem;
+cursor: pointer;
+background: #fff;
+color: var(--ink);
+box-shadow: 3px 3px 0 var(--ink);
+transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+}
+.book-btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+.book-btn.active { background: var(--orange); }
+
 .toolbar {
 background: #fff;
 border-bottom: 2.5px solid var(--ink);
@@ -555,6 +578,11 @@ main { padding: 1.25rem; }
   </div>
 </header>
 
+<div class="book-switch">
+  <button class="book-btn active" id="bookMainsBtn" data-book="mains" onclick="setBook('mains',this)">🍽️ Mains</button>
+  <button class="book-btn" id="bookBakeryBtn" data-book="bakery" onclick="setBook('bakery',this)">🍞 Bakery</button>
+</div>
+
 <div class="toolbar">
   <div class="toolbar-inner">
     <div class="search-box">
@@ -609,7 +637,7 @@ main { padding: 1.25rem; }
 
 <main>
   <div class="section-header">
-    <div class="section-title">All Recipes</div>
+    <div class="section-title" id="sectionTitle">All Recipes</div>
     <div class="count-badge" id="countBadge">0</div>
   </div>
   <div class="recipe-grid" id="recipeGrid"></div>
@@ -706,6 +734,24 @@ let groupByCategory = true;
 let cuisineFilter = 'all';
 let sortMode = 'default';        // 'default' | 'az' | 'quick'
 let quickOnly = false;
+let currentBook = 'mains';       // 'mains' | 'bakery'
+
+// A recipe belongs in the Bakery book if its category is Bread (or `book`
+// is set explicitly to override). Keeps the split to true baked goods —
+// fried snacks like spring rolls stay in Mains even though they show up
+// alongside bread in the "Bread & Snacks" category-grouping bucket.
+function isBread(r) {
+  if (r.book) return r.book === 'bakery';
+  return (r.category || '').toLowerCase() === 'bread';
+}
+
+function setBook(book, el) {
+  currentBook = book;
+  document.querySelectorAll('.book-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  location.hash = book === 'bakery' ? 'bread' : '';
+  renderRecipes();
+}
 
 // Best-effort parse of a free-text `time` field (e.g. "1 hr 15 mins",
 // "1.5–2 hrs", "30 mins + marinate") into a minute count. Ranges use the
@@ -2304,6 +2350,7 @@ function gridClass() {
 function renderRecipes() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   let filtered = recipes.filter(r => {
+    const matchBook = currentBook === 'bakery' ? isBread(r) : !isBread(r);
     const matchSearch = !q ||
       r.name.toLowerCase().includes(q) ||
       r.category.toLowerCase().includes(q) ||
@@ -2317,8 +2364,11 @@ function renderRecipes() {
       r.tags.some(t => t.toLowerCase() === cuisineFilter.toLowerCase());
     const mins = estimateMinutes(r.time);
     const matchQuick = !quickOnly || (mins !== null && mins <= 30);
-    return matchSearch && matchFilter && matchCuisine && matchQuick;
+    return matchBook && matchSearch && matchFilter && matchCuisine && matchQuick;
   });
+
+  document.getElementById('sectionTitle').textContent =
+    currentBook === 'bakery' ? '🍞 Bakery' : 'All Recipes';
 
   if (sortMode === 'az') {
     filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
@@ -2501,6 +2551,12 @@ function exportBook() {
   a.href = URL.createObjectURL(blob);
   a.download = 'my-recipe-book.html';
   a.click();
+}
+
+if (location.hash === '#bread' || location.hash === '#bakery') {
+  currentBook = 'bakery';
+  document.getElementById('bookMainsBtn').classList.remove('active');
+  document.getElementById('bookBakeryBtn').classList.add('active');
 }
 
 renderRecipes();
