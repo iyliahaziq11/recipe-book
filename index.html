@@ -457,6 +457,63 @@ flex-wrap: wrap;
 margin-bottom: 0.75rem;
 }
 
+.bp-calc { margin-bottom: 1rem; }
+.bp-loaves-row {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 10px;
+padding-bottom: 10px;
+border-bottom: 2px dashed var(--ink);
+flex-wrap: wrap;
+}
+.bp-hint { font-size: 0.78rem; font-weight: 600; color: #777; }
+.bp-header {
+display: grid;
+grid-template-columns: 1fr 60px 14px 70px;
+gap: 8px;
+font-size: 0.68rem;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 0.04em;
+color: #999;
+padding: 0 2px 4px;
+}
+.bp-row {
+display: grid;
+grid-template-columns: 1fr 60px 14px 70px;
+gap: 8px;
+align-items: center;
+padding: 5px 2px;
+}
+.bp-label { font-size: 0.85rem; font-weight: 700; }
+.bp-pct-input {
+width: 100%;
+border: 2px solid var(--ink);
+border-radius: 8px;
+padding: 4px 6px;
+font-family: 'Nunito', sans-serif;
+font-weight: 700;
+font-size: 0.85rem;
+text-align: right;
+font-variant-numeric: tabular-nums;
+color: var(--ink);
+background: #fff;
+}
+.bp-pct-sign { font-size: 0.8rem; font-weight: 700; color: #777; }
+.bp-grams {
+font-weight: 800;
+font-size: 0.85rem;
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+.bp-total-row {
+margin-top: 6px;
+padding-top: 10px;
+border-top: 2.5px solid var(--ink);
+}
+.bp-total-row .bp-label, .bp-total-row .bp-grams { font-size: 0.95rem; }
+
 .ingredient-list {
 list-style: none;
 display: flex;
@@ -826,6 +883,92 @@ function saveRecipes() {
 }
 
 let recipes = loadRecipes() || [
+  {
+    id: 53,
+    name: "Sourdough Loaf",
+    emoji: "🥖",
+    source: "own",
+    category: "Bread",
+    time: "~24 hrs (incl. overnight cold retard)",
+    servings: "2 loaves (base recipe)",
+    tags: ["Bread", "Baked", "Sourdough", "Naturally Leavened"],
+    bakersPct: {
+      gramsPerLoaf: 450,
+      defaultLoaves: 2,
+      flourBlend: [
+        { key: "bf", label: "Bread Flour", pct: 90 },
+        { key: "ww", label: "Whole Wheat Flour", pct: 10 }
+      ],
+      extras: [
+        { key: "water", label: "Water", pct: 80 },
+        { key: "starter", label: "Starter", pct: 15 },
+        { key: "salt", label: "Salt", pct: 2 },
+        { key: "filling", label: "Filling (cheddar + jalapeño, optional)", pct: 20 }
+      ]
+    },
+    ingredients: [
+      "810g bread flour (90%)",
+      "90g whole wheat flour (10%)",
+      "720g water (80%)",
+      "135g active starter (15%)",
+      "18g salt (2%)",
+      "— FILLING (optional, ~20% of flour weight / 180g total) —",
+      "110g cheddar cheese, shredded",
+      "50g jalapeño, sliced or diced"
+    ],
+    steps: [
+      "Mix: combine the bread flour, whole wheat flour, and water (reserve a small splash) in a bowl until no dry flour remains. Cover and autolyse for 30–60 minutes.",
+      "Add starter and salt: add the active starter and salt (plus the reserved splash of water) and mix or pinch until fully incorporated.",
+      "Bulk ferment: cover and let ferment at room temperature, doing 3–4 sets of stretch-and-folds spaced about 30 minutes apart over the first 2 hours.",
+      "If using a filling, fold in the cheddar and jalapeño (or your chosen mix-ins) during the last stretch-and-fold.",
+      "Continue bulk fermentation until the dough has risen by about 50%, feels jiggly, and shows some bubbles on the surface — timing depends heavily on your starter and kitchen temperature.",
+      "Divide and pre-shape: turn the dough out, divide into the number of loaves, and pre-shape each into a loose round. Rest uncovered for 20–30 minutes.",
+      "Final shape: shape each piece into a tight boule or batard and place seam-side up in a floured banneton.",
+      "Cold retard: cover and refrigerate overnight (8–14 hours) for better flavour and easier scoring.",
+      "Bake: preheat the oven with a Dutch oven inside to 240°C (475°F). Turn the dough out onto parchment, score, and bake covered for 20 minutes, then uncovered for another 20–25 minutes until deep golden brown.",
+      "Cool completely on a wire rack — at least 1 hour — before slicing."
+    ],
+    notes: "Use the calculator above the ingredients: adjust the flour blend or loaf count and every gram recalculates automatically. Steps are a standard sourdough method filled in for scaling purposes — only the baker's percentages were in the original note, so adjust timing/technique to how you actually make yours. One thing to flag: the filling line totals 180g at 20% of flour weight, but the itemized cheddar (110g) + jalapeño (50g) only add up to 160g — worth double-checking which is right for your version.",
+    fav: false
+  },
+  {
+    id: 52,
+    name: "Sourdough Pancakes",
+    emoji: "🥞",
+    source: "web",
+    category: "Breakfast",
+    time: "40 mins (or overnight + 10 mins)",
+    servings: "10 pancakes (6-inch)",
+    tags: ["Breakfast", "Sourdough", "Pancakes", "Homemade"],
+    ingredients: [
+      "— DRY MIX —",
+      "190g all-purpose flour, spooned and leveled",
+      "24g sugar (2 tbsp)",
+      "½ tsp fine sea salt",
+      "2 tsp baking powder",
+      "1 tsp baking soda",
+      "— WET MIX —",
+      "240g sourdough starter (discard or active)",
+      "2 large eggs",
+      "240ml milk, plus more as needed",
+      "42g unsalted butter, melted (or oil), plus more for the skillet",
+      "— TO SERVE —",
+      "Maple syrup",
+      "Fresh berries",
+      "Powdered sugar"
+    ],
+    steps: [
+      "Overnight method: whisk the flour, sugar, and salt in a bowl, then whisk in the starter, eggs, milk, and melted butter until combined. Cover and refrigerate overnight. Same-day method: whisk all dry ingredients together (including the baking powder and baking soda), then add the wet ingredients and mix gently until smooth — skip ahead to step 3.",
+      "Next day (overnight method only): sift the baking powder and baking soda over the rested batter and whisk in. The batter should be thick, bubbly, and pourable — add a splash more milk if it's too thick. Let rest 5 minutes before cooking.",
+      "Melt a little butter in a 10-inch skillet over medium-low heat.",
+      "Pour about ⅓ cup of batter per pancake. Cook for 1–2 minutes until the edges puff and bubbles appear on the surface, then flip.",
+      "Cook for another minute on the second side, then transfer to a sheet pan to keep warm.",
+      "Wipe the skillet between pancakes and add a little more butter as needed.",
+      "Serve stacked with maple syrup, fresh berries, and a dusting of powdered sugar."
+    ],
+    notes: "Overnight fermentation deepens the sourdough flavour and is a good way to use up discard — same-day works fine too, just mix everything at once. Using both baking powder and baking soda together is what gives the fluffy, tender crumb. Keep an eye on batter consistency — thick, bubbly, and pourable is the target; add milk a splash at a time if it's too thick. From The Clever Carrot.",
+    fav: false
+  },
   {
     id: 51,
     name: "Quick Refrigerator Pickles",
@@ -2768,8 +2911,93 @@ function scaleControlHtml(r) {
   </div>`;
 }
 
+// --- Baker's-percentage calculator ---
+// Only recipes with a `bakersPct` config use this (currently just the
+// Sourdough Loaf). `flourBlend` entries are linked and always sum to
+// 100% (raise one, the other drops automatically); `extras` are each an
+// independent percentage of the total flour weight, per baker's-percentage
+// convention. Loaves × gramsPerLoaf sets the total flour weight everything
+// else is computed from.
+let bakersState = null;
+
+function initBakersState(cfg) {
+  const state = { loaves: cfg.defaultLoaves, flour: {}, extras: {} };
+  cfg.flourBlend.forEach(f => state.flour[f.key] = f.pct);
+  cfg.extras.forEach(e => state.extras[e.key] = e.pct);
+  return state;
+}
+
+function setBakersLoaves(value) {
+  const n = parseFloat(value);
+  bakersState.loaves = isNaN(n) || n <= 0 ? 0.5 : n;
+  renderModalContent(currentModalId);
+}
+
+function setBakersFlourPct(key, value) {
+  let pct = parseFloat(value);
+  if (isNaN(pct)) pct = 0;
+  pct = Math.min(100, Math.max(0, pct));
+  const otherKey = Object.keys(bakersState.flour).find(k => k !== key);
+  bakersState.flour[key] = pct;
+  bakersState.flour[otherKey] = Math.round((100 - pct) * 10) / 10;
+  renderModalContent(currentModalId);
+}
+
+function setBakersExtraPct(key, value) {
+  let pct = parseFloat(value);
+  if (isNaN(pct)) pct = 0;
+  bakersState.extras[key] = Math.max(0, pct);
+  renderModalContent(currentModalId);
+}
+
+function bakersCalcHtml(r) {
+  const cfg = r.bakersPct;
+  if (!bakersState) bakersState = initBakersState(cfg);
+  const totalFlour = bakersState.loaves * cfg.gramsPerLoaf;
+
+  const flourRows = cfg.flourBlend.map(f => {
+    const pct = bakersState.flour[f.key];
+    const grams = totalFlour * pct / 100;
+    return { label: f.label, pct, grams, onChange: `setBakersFlourPct('${f.key}',this.value)` };
+  });
+  const extraRows = cfg.extras.map(e => {
+    const pct = bakersState.extras[e.key];
+    const grams = totalFlour * pct / 100;
+    return { label: e.label, pct, grams, onChange: `setBakersExtraPct('${e.key}',this.value)` };
+  });
+  const allRows = flourRows.concat(extraRows);
+  const total = allRows.reduce((sum, row) => sum + row.grams, 0);
+
+  const rowHtml = row => `
+    <div class="bp-row">
+      <span class="bp-label">${row.label}</span>
+      <input class="bp-pct-input" type="number" step="0.5" min="0" max="100" value="${row.pct}" onchange="${row.onChange}">
+      <span class="bp-pct-sign">%</span>
+      <span class="bp-grams">${Math.round(row.grams)}g</span>
+    </div>`;
+
+  return `
+    <div class="bp-calc">
+      <div class="bp-loaves-row">
+        <span class="bp-label">Loaves</span>
+        <input class="bp-pct-input" style="width:70px;" type="number" step="0.5" min="0.5" value="${bakersState.loaves}" onchange="setBakersLoaves(this.value)">
+        <span class="bp-hint">× ${cfg.gramsPerLoaf}g flour per loaf = ${Math.round(totalFlour)}g total flour</span>
+      </div>
+      <div class="bp-header"><span>Ingredient</span><span>%</span><span></span><span>Grams</span></div>
+      ${allRows.map(rowHtml).join('')}
+      <div class="bp-row bp-total-row">
+        <span class="bp-label">Total weight before bake</span>
+        <span></span><span></span>
+        <span class="bp-grams">${Math.round(total)}g</span>
+      </div>
+    </div>`;
+}
+
+let currentModalId = null;
+
 function openViewModal(id) {
   currentScale = 1;
+  bakersState = null;
   renderModalContent(id);
   document.getElementById('viewModal').classList.add('open');
 }
@@ -2780,9 +3008,12 @@ function setScale(id, scale) {
 }
 
 function renderModalContent(id) {
+  currentModalId = id;
   const r = recipes.find(x => x.id === id);
   if (!r) return;
-  const ingHtml = r.ingredients.map(i => ingredientLineHtml(i, currentScale)).join('');
+  const ingredientsSectionHtml = r.bakersPct
+    ? bakersCalcHtml(r)
+    : `${scaleControlHtml(r)}<ul class="ingredient-list">${r.ingredients.map(i => ingredientLineHtml(i, currentScale)).join('')}</ul>`;
   const stepsHtml = r.steps.map((s,i) =>
     `<li><div class="step-num">${i+1}</div><div>${s}</div></li>`
   ).join('');
@@ -2806,8 +3037,7 @@ function renderModalContent(id) {
         ${tagsHtml}
       </div>
       <div class="modal-section-title">🛒 Ingredients</div>
-      ${scaleControlHtml(r)}
-      <ul class="ingredient-list">${ingHtml}</ul>
+      ${ingredientsSectionHtml}
       <div class="modal-section-title">👨‍🍳 Steps</div>
       <ol class="steps-list">${stepsHtml}</ol>
       ${r.notes ? `<div class="modal-note">${r.notes}</div>` : ''}
