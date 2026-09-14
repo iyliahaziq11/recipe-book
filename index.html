@@ -123,6 +123,16 @@ position: sticky;
 top: 0;
 z-index: 100;
 }
+.filter-panel {
+background: #fff;
+border-bottom: 2.5px solid var(--ink);
+padding: 1rem 2rem;
+}
+@media (min-width: 900px) {
+/* Enough screen room to just leave filters open on desktop/tablet. */
+.filter-panel[hidden] { display: block; }
+#filterToggleBtn { display: none; }
+}
 .toolbar-inner {
 max-width: 900px;
 margin: 0 auto;
@@ -624,8 +634,21 @@ color: var(--ink);
 
 @media (max-width: 600px) {
 .form-row { grid-template-columns: 1fr; }
-header { padding: 1.5rem; }
 main { padding: 1.25rem; }
+
+/* Compact header — on a phone, the hero was eating a huge chunk of the
+   screen before any recipes were even visible. */
+header { padding: 0.85rem 1.25rem; }
+header::before, header::after { display: none; }
+.header-title { font-size: 1.4rem; line-height: 1.15; }
+.header-title br { display: none; }
+.header-sub { display: none; }
+.header-actions { margin-top: 0.6rem; gap: 6px; }
+.header-actions .btn { padding: 7px 12px; font-size: 0.78rem; }
+
+/* Compact book-switch bar */
+.book-switch { padding: 8px; gap: 6px; }
+.book-btn { padding: 7px 16px; font-size: 0.85rem; }
 }
 </style>
 </head>
@@ -654,6 +677,12 @@ main { padding: 1.25rem; }
       <span>🔍</span>
       <input type="text" id="searchInput" placeholder="Search recipes..." oninput="renderRecipes()">
     </div>
+    <button class="chip" id="filterToggleBtn" onclick="toggleFilterPanel()">⚙️ Filters</button>
+  </div>
+</div>
+
+<div class="filter-panel" id="filterPanel" hidden>
+  <div class="toolbar-inner">
     <div class="filter-chips">
       <button class="chip active" data-filter="all" onclick="setFilter('all',this)">All</button>
       <button class="chip" data-filter="mum" onclick="setFilter('mum',this)">👩‍🍳 Ibu</button>
@@ -2709,9 +2738,21 @@ let recipes = loadRecipes() || [
 
 function setFilter(f, el) {
   currentFilter = f;
-  document.querySelectorAll('.filter-chips .chip:not(.view-chip):not(#groupToggle)').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.filter-chips .chip:not(.view-chip):not(#groupToggle):not(#quickToggle)').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   renderRecipes();
+}
+
+function toggleFilterPanel() {
+  const panel = document.getElementById('filterPanel');
+  const btn = document.getElementById('filterToggleBtn');
+  const opening = panel.hasAttribute('hidden');
+  if (opening) {
+    panel.removeAttribute('hidden');
+  } else {
+    panel.setAttribute('hidden', '');
+  }
+  btn.classList.toggle('active', opening);
 }
 
 function setView(v, el) {
