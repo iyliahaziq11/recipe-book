@@ -449,6 +449,14 @@ font-size: 1.1rem;
 margin: 1.1rem 0 0.5rem;
 color: var(--ink);
 }
+.scale-control {
+display: flex;
+align-items: center;
+gap: 6px;
+flex-wrap: wrap;
+margin-bottom: 0.75rem;
+}
+
 .ingredient-list {
 list-style: none;
 display: flex;
@@ -912,14 +920,14 @@ let recipes = loadRecipes() || [
     servings: "6–7 pcs",
     tags: ["Bread", "Baked", "Breakfast", "Homemade"],
     ingredients: [
-      "230g bread flour",
-      "50g warm water",
-      "70g milk",
-      "1 tsp yeast",
-      "1 tsp salt",
-      "1 tbsp honey",
-      "23g oil",
-      "1 egg",
+      { qty: 230, unit: "g", item: "bread flour" },
+      { qty: 50, unit: "g", item: "warm water" },
+      { qty: 70, unit: "g", item: "milk" },
+      { qty: 1, unit: "tsp", item: "yeast" },
+      { qty: 1, unit: "tsp", item: "salt" },
+      { qty: 1, unit: "tbsp", item: "honey" },
+      { qty: 23, unit: "g", item: "oil" },
+      { qty: 1, unit: "", item: "egg" },
       "Cornmeal or semolina, for dusting"
     ],
     steps: [
@@ -942,15 +950,15 @@ let recipes = loadRecipes() || [
     servings: "18–20 pcs",
     tags: ["Japanese", "Bread", "Baked", "Butter"],
     ingredients: [
-      "668g bread flour",
-      "82g cake flour",
-      "37g sugar",
-      "14.5g salt",
-      "43g skimmed milk powder",
-      "5–7g yeast",
-      "483g water",
-      "57g butter, softened",
-      "— TOPPING —",
+      { qty: 668, unit: "g", item: "bread flour" },
+      { qty: 82, unit: "g", item: "cake flour" },
+      { qty: 37, unit: "g", item: "sugar" },
+      { qty: 14.5, unit: "g", item: "salt" },
+      { qty: 43, unit: "g", item: "skimmed milk powder" },
+      { qty: 6, unit: "g", item: "yeast (5–7g)" },
+      { qty: 483, unit: "g", item: "water" },
+      { qty: 57, unit: "g", item: "butter, softened" },
+      "— TOPPING (scales with dough, not listed as an amount) —",
       "Extra butter, cut into small batons",
       "Flaky salt"
     ],
@@ -1033,11 +1041,11 @@ let recipes = loadRecipes() || [
     servings: "1 tray",
     tags: ["Bread", "Baked", "Italian", "Same-Day"],
     ingredients: [
-      "600g bread flour",
-      "480g water",
-      "12g salt",
-      "10g extra virgin olive oil (EVOO)",
-      "7g instant yeast"
+      { qty: 600, unit: "g", item: "bread flour" },
+      { qty: 480, unit: "g", item: "water" },
+      { qty: 12, unit: "g", item: "salt" },
+      { qty: 10, unit: "g", item: "extra virgin olive oil (EVOO)" },
+      { qty: 7, unit: "g", item: "instant yeast" }
     ],
     steps: [
       "Combine all ingredients — bread flour, water, salt, EVOO, and yeast — in a bowl until no dry flour remains.",
@@ -1934,16 +1942,16 @@ let recipes = loadRecipes() || [
     tags: ["Bread", "Baked", "Japanese", "Chewy"],
     ingredients: [
       "— DOUGH (add in this order) —",
-      "260–268g water (21–22°C)",
-      "13g oil (optional)",
-      "432g bread flour (high gluten flour)",
-      "2g active dry yeast (overnight) OR 5g active dry yeast (same day)",
-      "1 tsp malt powder",
-      "10g salt",
-      "22g brown sugar",
+      { qty: 264, unit: "g", item: "water (21–22°C) — 260–268g range" },
+      { qty: 13, unit: "g", item: "oil (optional)" },
+      { qty: 432, unit: "g", item: "bread flour (high gluten flour)" },
+      { qty: 5, unit: "g", item: "active dry yeast (same-day method — use 2g if proofing overnight)" },
+      { qty: 1, unit: "tsp", item: "malt powder" },
+      { qty: 10, unit: "g", item: "salt" },
+      { qty: 22, unit: "g", item: "brown sugar" },
       "— BOILING LIQUID —",
-      "Water",
-      "1 heaping tbsp malt syrup, honey, or brown sugar"
+      "Water, enough to submerge the bagels",
+      { qty: 1, unit: "tbsp", item: "malt syrup, honey, or brown sugar (heaping)" }
     ],
     steps: [
       "Add all dough ingredients to a stand mixer or bread machine in the order listed — be sure the yeast and salt don't touch directly. Knead with dough hook on lowest speed; once flour starts absorbing water (2–3 mins), increase to speed 2 and mix for 6–8 minutes. For hand kneading, knead in a bowl for 5–10 minutes until slightly smooth and not sticky. Dough temp should be below 27°C. Dough should feel moist but not sticky — it won't be super smooth or pass a windowpane test, that's fine.",
@@ -1955,7 +1963,7 @@ let recipes = loadRecipes() || [
       "Bring a pot of water to a boil. Add 1 heaping tbsp malt syrup, honey, or sugar. Boil each bagel for 10–30 seconds per side — the longer you boil, the chewier the exterior. Remove with a slotted spoon and transfer to a prepared baking tray.",
       "Bake at 218°C on a baking stone for 20–25 minutes until deep golden brown. At the 10–15 minute mark, remove the parchment paper and transfer the bagels to the top rack (without the stone) to avoid burning the bottom. Continue baking until done. Transfer to a wire rack to cool."
     ],
-    notes: "Overnight cold proof (active dry yeast, 2g) gives the best flavour. Same day method uses 5g instant yeast, bulk proof ~1 hour at room temp. The longer you roll the dough, the bigger the hole — don't go smaller than 14cm width or it's hard to keep the roll intact. Twist the dough 1–2 times during shaping for extra chew. Based on okonomikitchen's dry yeast bagel recipe.",
+    notes: "Overnight cold proof (active dry yeast, 2g) gives the best flavour. Same day method uses 5g instant yeast, bulk proof ~1 hour at room temp. The longer you roll the dough, the bigger the hole — don't go smaller than 14cm width or it's hard to keep the roll intact. Twist the dough 1–2 times during shaping for extra chew. Based on okonomikitchen's dry yeast bagel recipe. Ingredient amounts were normalized to single numbers (264g water, 5g yeast) so the Scale control works — the original ranges/alternatives are noted alongside each.",
     fav: false
   },
   {
@@ -2423,10 +2431,62 @@ function toggleFav(e, id) {
   if (r) { r.fav = !r.fav; saveRecipes(); renderRecipes(); }
 }
 
+let currentScale = 1;
+const SCALE_OPTIONS = [0.5, 1, 1.5, 2, 3];
+// Units that attach directly to the number (432g), vs. ones that get a
+// space (1 tsp). Matches the convention already used across the book.
+const ATTACHED_UNITS = new Set(['g', 'kg', 'mg', 'ml', 'l']);
+
+// Structured ingredients ({qty, unit, item}) can be scaled; plain-text
+// ones (the vast majority of the book) render unchanged either way.
+function isScalable(r) {
+  return r.ingredients.some(i => typeof i === 'object');
+}
+
+function formatQty(n) {
+  const rounded = Math.round(n * 100) / 100;
+  const whole = Math.floor(rounded);
+  const frac = Math.round((rounded - whole) * 100) / 100;
+  const FRACTIONS = { 0.25: '¼', 0.5: '½', 0.75: '¾', 0.33: '⅓', 0.34: '⅓', 0.67: '⅔', 0.66: '⅔' };
+  if (frac === 0) return String(whole);
+  if (FRACTIONS[frac]) return (whole ? whole + ' ' : '') + FRACTIONS[frac];
+  return String(rounded);
+}
+
+function ingredientLineHtml(ing, scale) {
+  if (typeof ing === 'string') return `<li>${ing}</li>`;
+  const qtyStr = formatQty(ing.qty * scale);
+  const amount = ing.unit
+    ? (ATTACHED_UNITS.has(ing.unit.toLowerCase()) ? `${qtyStr}${ing.unit}` : `${qtyStr} ${ing.unit}`)
+    : qtyStr;
+  return `<li>${amount} ${ing.item}</li>`;
+}
+
+function scaleControlHtml(r) {
+  if (!isScalable(r)) return '';
+  return `<div class="scale-control">
+    <span class="view-label">Scale:</span>
+    ${SCALE_OPTIONS.map(o =>
+      `<button class="chip${currentScale === o ? ' active' : ''}" onclick="setScale(${r.id},${o})">${o}×</button>`
+    ).join('')}
+  </div>`;
+}
+
 function openViewModal(id) {
+  currentScale = 1;
+  renderModalContent(id);
+  document.getElementById('viewModal').classList.add('open');
+}
+
+function setScale(id, scale) {
+  currentScale = scale;
+  renderModalContent(id);
+}
+
+function renderModalContent(id) {
   const r = recipes.find(x => x.id === id);
   if (!r) return;
-  const ingHtml = r.ingredients.map(i => `<li>${i}</li>`).join('');
+  const ingHtml = r.ingredients.map(i => ingredientLineHtml(i, currentScale)).join('');
   const stepsHtml = r.steps.map((s,i) =>
     `<li><div class="step-num">${i+1}</div><div>${s}</div></li>`
   ).join('');
@@ -2450,6 +2510,7 @@ function openViewModal(id) {
         ${tagsHtml}
       </div>
       <div class="modal-section-title">🛒 Ingredients</div>
+      ${scaleControlHtml(r)}
       <ul class="ingredient-list">${ingHtml}</ul>
       <div class="modal-section-title">👨‍🍳 Steps</div>
       <ol class="steps-list">${stepsHtml}</ol>
@@ -2459,7 +2520,6 @@ function openViewModal(id) {
         <button class="btn" style="font-size:0.8rem;padding:8px 14px;background:var(--coral);color:#fff;border-color:var(--ink);" onclick="deleteRecipe(${r.id})">🗑 Delete</button>
       </div>
     </div>`;
-  document.getElementById('viewModal').classList.add('open');
 }
 
 function closeViewModal(e) {
