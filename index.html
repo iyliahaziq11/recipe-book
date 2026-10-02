@@ -878,7 +878,7 @@ const GROUP_KEYWORDS = [
   ['dessert', ['dessert','cake','bubur','lava','pudding','kuih']],
   ['drinks',  ['drink','tea','teh']],
   ['sauce',   ['sambal','sos','condiment','sauce']],
-  ['seafood', ['seafood','ikan','fish','udang','prawn','shrimp','ketam','crab','sotong','squid','siput','siakap','pla']],
+  ['seafood', ['seafood','ikan','fish','udang','prawn','shrimp','ketam','crab','sotong','squid','siput','siakap','pla','tuna']],
   ['meat',    ['beef','chicken','ayam','daging','pork','babi','kambing','lamb','turkey','duck','sausage','gai']],
   ['vege',    ['vegetarian','sayur','vegetable','tofu','tauhu','lentil','kacang']],
   ['bread',   ['bread','bagel','dumpling','snack','toast','pastry','waffle','pancake']],
@@ -892,8 +892,10 @@ const GROUP_KEYWORDS = [
 function inferGroup(r) {
   if (r.group) return r.group;
   const text = [r.category, r.name, ...(r.tags || [])].join(' ').toLowerCase();
+  // Word-boundary match, not plain substring — otherwise 'cake' matches inside
+  // "pancake", 'tea' matches inside "steak", etc.
   for (const [key, words] of GROUP_KEYWORDS) {
-    if (words.some(w => text.includes(w))) return key;
+    if (words.some(w => new RegExp('\\b' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').test(text))) return key;
   }
   return 'other';
 }
@@ -911,6 +913,538 @@ function saveRecipes() {
 }
 
 let recipes = loadRecipes() || [
+  {
+    id: 71,
+    name: "Creamy Tuna Pasta",
+    emoji: "🐟",
+    source: "own",
+    category: "Pasta",
+    time: "15 mins",
+    servings: "2",
+    tags: ["Quick", "Creamy", "Tuna", "Weeknight"],
+    ingredients: [
+      "200g pasta",
+      "150g cream",
+      "1 can tuna, drained",
+      "Black pepper, to taste",
+      "A squeeze of lemon juice"
+    ],
+    steps: [
+      "Heat the cream with the tuna, black pepper, and lemon juice.",
+      "Toss with the cooked pasta."
+    ],
+    notes: "The quickest of the quick pasta ideas — pantry tuna makes this doable even with no fresh ingredients on hand.",
+    fav: false
+  },
+  {
+    id: 70,
+    name: "Mushroom Cream Pasta",
+    emoji: "🍄",
+    source: "own",
+    category: "Pasta",
+    time: "20 mins",
+    servings: "2",
+    tags: ["Quick", "Creamy", "Vegetarian", "Weeknight"],
+    ingredients: [
+      "200g pasta",
+      "200g mushrooms, sliced",
+      "Butter, for the pan",
+      "2 garlic cloves",
+      "150g cream",
+      "Black pepper, to taste"
+    ],
+    steps: [
+      "Brown the mushrooms in butter, then add the garlic.",
+      "Add the cream and season with black pepper.",
+      "Toss with the cooked pasta."
+    ],
+    notes: "Simple and vegetarian — a good base to add bacon or chicken to if you want it heartier.",
+    fav: false
+  },
+  {
+    id: 69,
+    name: "Garlic Chilli Cream Pasta",
+    emoji: "🌶️",
+    source: "own",
+    category: "Pasta",
+    time: "15 mins",
+    servings: "2",
+    tags: ["Quick", "Creamy", "Weeknight"],
+    ingredients: [
+      "200g pasta",
+      "5g garlic, minced",
+      "Chilli flakes, to taste",
+      "Butter, for the pan",
+      "150g cream",
+      "A splash of pasta water",
+      "30g parmesan"
+    ],
+    steps: [
+      "Cook the pasta.",
+      "Sauté the garlic and chilli flakes in butter, then add the cream and pasta water and simmer for 2 minutes.",
+      "Toss with the pasta and parmesan."
+    ],
+    notes: "A fast, pantry-friendly weeknight pasta — easy to bulk up with whatever protein or veg you have on hand.",
+    fav: false
+  },
+  {
+    id: 68,
+    name: "Discard + Instant Yeast Focaccia",
+    emoji: "🫓",
+    source: "own",
+    category: "Bread",
+    time: "~15 hrs (incl. cold proof)",
+    servings: "1 large pan (23×33cm)",
+    tags: ["Bread", "Baked", "Italian", "Sourdough Discard"],
+    ingredients: [
+      { qty: 400, unit: "g", item: "bread flour" },
+      { qty: 100, unit: "g", item: "sourdough discard, 100% hydration" },
+      { qty: 320, unit: "g", item: "water" },
+      { qty: 1.8, unit: "g", item: "instant yeast" },
+      { qty: 9, unit: "g", item: "salt" },
+      { qty: 13.5, unit: "g", item: "honey" },
+      { qty: 18, unit: "g", item: "olive oil, in the dough" },
+      { qty: 4.5, unit: "g", item: "mushroom powder (optional)" },
+      { qty: 20, unit: "g", item: "olive oil, for the pan and top" },
+      { qty: 90, unit: "g", item: "fillings of choice (optional)" }
+    ],
+    steps: [
+      "Mix everything except the 18g dough olive oil until no dry bits remain. Rest for 30 minutes, then add the oil and squeeze it in.",
+      "Do 3 coil folds, 20–30 minutes apart.",
+      "Cover and let rise at room temperature for about 45 minutes, then refrigerate for 12–36 hours.",
+      "Take the dough out 2–3 hours before baking and let it come to room temperature.",
+      "Oil the pan, tip in the dough, and stretch it a little. Rest for 45–60 minutes until puffy and jiggly. Dimple with oiled fingers, add any fillings, and drizzle with oil.",
+      "Bake at 220°C for about 25 minutes until deep golden."
+    ],
+    notes: "A hybrid of two focaccia methods — sourdough discard for tang and flavour, instant yeast for reliable lift. Too sour? Shorten the cold proof to 12–16 hours or cut the discard to 60g. Poolish variant: the night before, mix 50g flour + 50g water + about 0.1g yeast and leave at room temp 8–12 hours; then use 350g flour, 270g water, 1.4g yeast, plus the 100g poolish and 100g discard for the main dough. Use the Scale control above for a doubled batch (2 large pans, or 1 large + 1 medium) — verified to match exactly: 800g flour, 200g discard, 640g water, 3.6g yeast, 18g salt, 27g honey, 36g dough oil, 9g mushroom powder, 40g pan oil, 180g fillings.",
+    fav: false
+  },
+  {
+    id: 67,
+    name: "Toasted Corn Flour Sourdough Baguettes",
+    emoji: "🌽",
+    source: "web",
+    category: "Bread",
+    time: "~2 days (incl. overnight cold bulk)",
+    servings: "6 baguettes (350g each)",
+    tags: ["Bread", "Baked", "Sourdough", "Baguette"],
+    ingredients: [
+      "— LEVAIN —",
+      "60g medium-protein white flour (11–12%, AP or T65)",
+      "60g water",
+      "60g ripe sourdough starter, 100% hydration",
+      "— AUTOLYSE —",
+      "825g medium-protein white flour",
+      "220g whole wheat flour",
+      "735g water",
+      "— MAIN DOUGH —",
+      "55g toasted corn flour",
+      "55g water (or more as needed)",
+      "20g fine sea salt",
+      "185g ripe sourdough levain (from above)"
+    ],
+    steps: [
+      "Mix the levain ingredients and rest for 3 hours at 26°C. Meanwhile, spread the corn flour in a thin layer on a baking sheet and toast at 175°C for 5–8 minutes until fragrant — pull it as soon as it starts to colour.",
+      "Mix the autolyse ingredients and rest for 3 hours while the levain ripens.",
+      "Add the toasted corn flour, salt, levain, and the 55g water to the autolyse. Mix thoroughly and knead to a target dough temperature of 26°C.",
+      "Do 2 sets of stretch and folds, 30 minutes apart, during a 2-hour warm bulk.",
+      "Refrigerate the bulk dough overnight.",
+      "Divide into six 350g pieces, gently preshape into tubes, and rest for 30 minutes.",
+      "Shape into long tubes with tapered ends and place on a couche or clean kitchen towel.",
+      "Proof for 2–3 hours until they pass the poke test.",
+      "Bake at 230°C for 20 minutes with steam (closed pot or covered), then 10–12 minutes uncovered."
+    ],
+    notes: "'Corn flour' here means US-style finely ground whole corn, NOT cornstarch — in Singapore, use fine cornmeal/polenta blitzed to a powder, or Bob's Red Mill corn flour; masa harina works in a pinch. The levain ingredients above total 180g but the main dough calls for 185g — make the levain slightly larger, or just use all of it. Inspired by an Instagram post from Maurizio (The Perfect Loaf), itself based on Tartine No. 3.",
+    fav: false
+  },
+  {
+    id: 66,
+    name: "Lebanese Chicken Shawarma",
+    emoji: "🥙",
+    source: "web",
+    category: "Wrap",
+    time: "4+ hrs marinate + 20 mins cook",
+    servings: "6",
+    tags: ["Lebanese", "Chicken", "Wrap", "Marinade"],
+    ingredients: [
+      "— MARINADE —",
+      "450g chicken thighs",
+      "450g chicken breast, pounded thin",
+      "2 garlic cloves, crushed",
+      "55g vegetable oil",
+      "2.5g paprika",
+      "3g seven spices",
+      "3g cumin",
+      "3g white pepper",
+      "A pinch of ground mastic (about 0.5g)",
+      "6 cardamom pods, lightly crushed",
+      "3 bay leaves",
+      "45g white vinegar",
+      "6–9g salt, to taste",
+      "Zest of 1 orange",
+      "Zest of 1 lemon",
+      "½ onion, in chunks",
+      "— CRISPING GLAZE (OPTIONAL) —",
+      "30–40g olive oil",
+      "8g red pepper paste or tomato paste",
+      "10g pomegranate molasses",
+      "— TO SERVE —",
+      "Garlic sauce (toum), pickles, fries, pita bread"
+    ],
+    steps: [
+      "Pound the chicken breast thin and lightly flatten the thighs.",
+      "Mix the chicken with all the marinade ingredients. Marinate for at least 4 hours, ideally overnight.",
+      "Cook in a pan, oven, or on the grill over medium-high heat until fully cooked through.",
+      "Spread garlic sauce on the pita, add the chicken, pickles, and fries, then roll tightly.",
+      "Optional: mix the crisping glaze, lightly coat the outside of the rolled sandwich, and crisp in a hot pan until golden. Serve hot with extra toum, pickles, and fries."
+    ],
+    notes: "Freezes well, either raw in the marinade or already cooked. Adapted from an Instagram post by theninadaily.",
+    fav: false
+  },
+  {
+    id: 65,
+    name: "Chocolate Chip Banana Sourdough",
+    emoji: "🍫",
+    source: "own",
+    category: "Bread",
+    time: "~20 hrs (incl. overnight cold retard)",
+    servings: "1 loaf",
+    tags: ["Bread", "Baked", "Sourdough", "Chocolate", "Banana"],
+    ingredients: [
+      { qty: 100, unit: "g", item: "active levain (100% hydration)" },
+      { qty: 450, unit: "g", item: "bread flour" },
+      { qty: 30, unit: "g", item: "Dutch-process cocoa powder" },
+      { qty: 350, unit: "g", item: "water (about 30°C)" },
+      { qty: 20, unit: "g", item: "water, held back for mixing in the salt" },
+      { qty: 10, unit: "g", item: "fine salt" },
+      { qty: 30, unit: "g", item: "brown sugar" },
+      { qty: 100, unit: "g", item: "dark chocolate chips" },
+      { qty: 200, unit: "g", item: "ripe but firm banana, in 2cm chunks" },
+      "Rice flour, for dusting the banneton"
+    ],
+    steps: [
+      "Feed your starter so you have 100g of active levain at peak (doubled, domed, bubbly) — about 3–4 hours in warm weather.",
+      "Whisk the flour and cocoa together, then mix in the 350g water and brown sugar until no dry bits remain. Cover and rest.",
+      "Add the levain and pinch it through. Rest for 15 minutes, then add the salt with the 20g water and squeeze until fully absorbed.",
+      "After 30 minutes, stretch the dough thin on a wet bench, scatter over the chocolate chips, and fold into a package.",
+      "Do 3 sets of coil folds, 30–45 minutes apart, then leave alone. Total bulk is about 3.5–4.5 hours at 28–30°C — stop at about 50% growth, jiggly with bubbles on the sides.",
+      "Turn out and gently round into a loose ball. Rest uncovered.",
+      "Flip, stretch into a rectangle, press the banana chunks across the surface, and roll tightly into a batard so the banana sits inside. Place seam-side up in a lined banneton dusted with rice flour.",
+      "Cover and refrigerate overnight, 12–16 hours.",
+      "Preheat the oven with a Dutch oven inside at 250°C for 45 minutes. Turn the dough onto parchment, score, and bake lidded.",
+      "Remove the lid, drop to 230°C, and bake until the internal temperature reaches about 96°C — judge by thermometer or hollow knock, not crust colour.",
+      "Cool on a rack for at least 2 hours before cutting."
+    ],
+    notes: "Total hydration is about 80%, but the cocoa absorbs water so it handles more like 75%. Add the banana at shaping, not during bulk, or it turns to mush and makes the dough slack. Use bananas that are yellow with a few spots, not black. For a more caramelised look, toss the chunks in a little brown sugar first.",
+    fav: false
+  },
+  {
+    id: 64,
+    name: "Preserved Lemons",
+    emoji: "🫙",
+    source: "own",
+    category: "Condiment",
+    time: "3–4+ weeks (ferment)",
+    servings: "1 jar",
+    tags: ["Preserved", "Fermented", "Mediterranean", "Moroccan"],
+    ingredients: [
+      "6–8 unwaxed lemons",
+      "3–4 extra lemons, for juicing",
+      "60–90g coarse sea salt (about 4–6 tbsp)",
+      "1 cinnamon stick (optional)",
+      "A few peppercorns (optional)",
+      "1–2 bay leaves (optional)",
+      "Coriander seeds (optional)"
+    ],
+    steps: [
+      "Cut two deep crosses into each lemon, to about 1cm from the base, keeping it attached at the bottom.",
+      "Pack 1–2 tbsp of salt into each lemon's cuts.",
+      "Pack the lemons tightly into a sterilised jar with the spices, pressing to release their juice.",
+      "Squeeze the extra lemons and pour the juice in until the lemons are fully submerged; add more salt on top.",
+      "Seal and leave at room temperature for 24–48 hours, pressing down daily.",
+      "Move to a cool dark place or the fridge for 3–4+ weeks, turning occasionally.",
+      "Rinse off the excess salt before using; use just the rind in cooking."
+    ],
+    notes: "A classic for Moroccan and Mediterranean cooking — chop the preserved rind finely and stir through tagines, salads, or dressings.",
+    fav: false
+  },
+  {
+    id: 63,
+    name: "Tight-Crumb Sandwich Sourdough",
+    emoji: "🍞",
+    source: "own",
+    category: "Bread",
+    time: "~24 hrs (incl. optional cold retard)",
+    servings: "1 loaf (base recipe)",
+    tags: ["Bread", "Baked", "Sourdough", "Sandwich Loaf"],
+    bakersPct: {
+      gramsPerLoaf: 450,
+      defaultLoaves: 1,
+      flourBlend: [
+        { key: "bf", label: "Bread Flour", pct: 90 },
+        { key: "ww", label: "Whole Wheat Flour", pct: 10 }
+      ],
+      extras: [
+        { key: "water", label: "Water", pct: 65 },
+        { key: "starter", label: "Starter", pct: 15 },
+        { key: "salt", label: "Salt", pct: 2 },
+        { key: "fat", label: "Butter or Oil", pct: 6 },
+        { key: "sweetener", label: "Honey or Sugar", pct: 4 }
+      ]
+    },
+    ingredients: [
+      "405g bread flour (90%)",
+      "45g whole wheat flour (10%)",
+      "293g water (65%)",
+      "68g starter (15%)",
+      "9g salt (2%)",
+      "27g butter or oil (6%)",
+      "18g honey or sugar (4%)"
+    ],
+    steps: [
+      "Mix and knead until smooth.",
+      "Bulk ferment until about 50–60% risen, doing only 2–3 gentle folds.",
+      "Degas well, shape tightly into a spiral roll, and place in a loaf pan.",
+      "Proof, then bake (lid on if using a pullman pan).",
+      "Optional: cold retard overnight in the fridge before baking for extra flavour."
+    ],
+    notes: "Use the calculator above to adjust the flour blend or number of loaves. This is a lower-hydration, enriched version of the Sourdough Loaf recipe (butter/oil and honey added, water pulled back to 65%) specifically for a tighter, more sandwich-friendly crumb instead of an open, holey one.",
+    fav: false
+  },
+  {
+    id: 62,
+    name: "Rice Cooker Chicken Congee",
+    emoji: "🥣",
+    source: "own",
+    category: "Congee",
+    time: "1 hr",
+    servings: "3",
+    tags: ["Chicken", "Comfort Food", "Rice Cooker", "Easy"],
+    ingredients: [
+      "150g rice",
+      "1200–1500g water or chicken stock",
+      "300g boneless chicken thigh",
+      "3 ginger slices",
+      "6g salt (about 1 tsp)",
+      "4.5g sesame oil (about 1 tsp)",
+      "— GARNISH —",
+      "White pepper",
+      "Spring onion, sliced",
+      "Fried shallots",
+      "Soy sauce"
+    ],
+    steps: [
+      "Rinse the rice and add it to the rice cooker with the water or stock, ginger, and chicken.",
+      "Use the porridge mode, or cook on the regular rice setting then keep warm for 20–30 minutes, stirring once or twice.",
+      "Shred the chicken back into the congee and season with the salt and sesame oil.",
+      "Garnish with white pepper, spring onion, fried shallots, and soy sauce."
+    ],
+    notes: "A low-effort congee that cooks itself in the rice cooker — no need to babysit the pot.",
+    fav: false
+  },
+  {
+    id: 61,
+    name: "Fermented Salted Lime (Ham Leng Chat)",
+    emoji: "🍋",
+    source: "own",
+    category: "Drinks",
+    time: "1–4+ weeks (ferment)",
+    servings: "1 jar",
+    tags: ["Fermented", "Drink", "Malaysian", "Preserved"],
+    ingredients: [
+      "8–10 small limes (kalamansi or regular), washed and dried",
+      "Coarse sea salt, about 1 part salt to 4–5 parts lime by weight",
+      "4–5 asam boi (dried sour plums)",
+      "Fresh lime juice, to top up",
+      "7-Up or Sprite, for serving",
+      "Ice, for serving"
+    ],
+    steps: [
+      "Slice a deep cross into the top of each lime, not all the way through.",
+      "Pack salt into the cuts and layer the limes tightly into a clean jar with the asam boi, bruised slightly.",
+      "Press down firmly so the limes release their juice; top up with fresh lime juice or brine until fully submerged.",
+      "Seal (doesn't need to be airtight) and leave at room temperature, pressing down daily for the first few days.",
+      "Ferment for 1–4+ weeks, tasting along the way, then refrigerate once you're happy with the flavour.",
+      "To serve: muddle 1 fermented lime and 1 asam boi with a splash of the brine, top with chilled 7-Up or Sprite and ice."
+    ],
+    notes: "A Malaysian preserved drink base — ferment time is down to taste; some prefer a lighter 1-week ferment, others go longer for a more intense flavour.",
+    fav: false
+  },
+  {
+    id: 60,
+    name: "Kimchi Cheese Pancake (Jeon)",
+    emoji: "🧀",
+    source: "own",
+    category: "Snack",
+    time: "30 mins",
+    servings: "2 pancakes",
+    tags: ["Korean", "Snack", "Kimchi", "Cheese"],
+    ingredients: [
+      "— BATTER —",
+      "150g well-fermented kimchi, chopped small",
+      "40g kimchi juice",
+      "100g plain flour",
+      "30g potato starch or cornflour",
+      "130g ice-cold water",
+      "1 egg (optional)",
+      "2 spring onions, sliced",
+      "5g sugar",
+      "1g salt, only if needed",
+      "— FILLING —",
+      "100g shredded mozzarella (or mozzarella/cheddar mix)",
+      "20g oil, for pan-frying"
+    ],
+    steps: [
+      "Mix the flour, starch, water, kimchi juice, egg, and sugar into a loose batter. Stir in the kimchi and spring onions.",
+      "Heat 10g of the oil in a non-stick pan over medium-high heat. Spread half the batter thin (about 5mm).",
+      "Cook for 3–4 minutes until the edges are crisp and golden. Scatter half the cheese on top.",
+      "Fold in half so the cheese melts inside, or add a thin layer of batter over the cheese to sandwich it.",
+      "Add a little oil around the edge, flip, and press. Cook for another 2–3 minutes until golden and the cheese is stretchy.",
+      "Repeat for the second pancake. Cut into wedges and eat right away."
+    ],
+    notes: "Dipping sauce: 15g soy sauce, 10g rice vinegar, 3g gochugaru, a pinch of sugar. Thin and wide batter gives crispy edges; thick turns doughy. Old, sour kimchi tastes best — if using fresh kimchi, add 5g more juice. Inspired by a dish at Meokjja, Singapore (not the restaurant's actual recipe).",
+    fav: false
+  },
+  {
+    id: 59,
+    name: "Spiced Beef Wrap Slices",
+    emoji: "🌯",
+    source: "own",
+    category: "Wrap",
+    time: "30–45 mins (incl. marinate)",
+    servings: "3",
+    tags: ["Beef", "Quick", "Korean-Inspired"],
+    ingredients: [
+      "300g beef sirloin or ribeye, sliced very thin (freeze 20 mins first for easier slicing)",
+      "15g light soy sauce",
+      "10g Worcestershire sauce",
+      "5g chilli powder (or gochugaru)",
+      "2g black pepper",
+      "3g garlic powder (or 2 minced garlic cloves)",
+      "5g sugar or honey",
+      "5g oil",
+      "3g cornflour"
+    ],
+    steps: [
+      "Mix everything with the beef and marinate for 15–30 minutes.",
+      "Heat a pan or wok until very hot. Cook the beef in 2 batches, 1–2 minutes each, so it sears rather than steams.",
+      "Remove from heat immediately — it overcooks fast.",
+      "To assemble: warm a tortilla, add cheese (mozzarella or cheddar), the beef, caramelised onion, and optionally egg, avocado, and kimchi."
+    ],
+    notes: "Smokier: add 2g smoked paprika. More Korean: add 5g sesame oil and a little grated pear or apple. Spicier: add 10g gochujang or a squeeze of sriracha.",
+    fav: false
+  },
+  {
+    id: 58,
+    name: "Pasta Stroganoff",
+    emoji: "🍝",
+    source: "own",
+    category: "Pasta",
+    time: "30 mins",
+    servings: "2",
+    tags: ["Comfort Food", "Beef", "Creamy"],
+    ingredients: [
+      "200g pasta (tagliatelle, fettuccine, or penne)",
+      "300g beef sirloin or chicken thigh, sliced thin",
+      "200g shiitake mushrooms, stems removed, caps sliced 5mm",
+      "1 onion, sliced",
+      "3 garlic cloves, minced",
+      "15g butter",
+      "15g oil",
+      "15g flour",
+      "200g chicken stock (or water plus a stock cube)",
+      "100g cream",
+      "15g Dijon mustard (optional)",
+      "Worcestershire sauce, a splash",
+      "Soy sauce, a little (if using chicken stock)",
+      "Salt and pepper, to taste"
+    ],
+    steps: [
+      "Boil the pasta until al dente. Save about 100g of the pasta water, then drain.",
+      "Sear the beef for 1–2 minutes per side (4–5 minutes for chicken). Set aside.",
+      "Add the butter to the pan and cook the onion and shiitake for 7–8 minutes until browned. Add the garlic for 30 seconds.",
+      "Stir in the flour for 1 minute. Add the stock, mustard, and Worcestershire sauce, and simmer for 3–4 minutes.",
+      "Lower the heat and stir in the cream. Add the pasta and meat and toss for 1 minute, loosening with pasta water if needed.",
+      "Taste before adding salt. Don't let it boil once the cream has gone in."
+    ],
+    notes: "Stock substitutes (1:1 for 200g): chicken stock; water plus a stock cube; water plus 1 tbsp soy sauce and 1 tsp Worcestershire; or mushroom soaking liquid from dried shiitake. Shiitake is meatier than button mushrooms — remove the tough stems and cook a little longer. Variation: Beef Stroganoff (no pasta) — same recipe without the pasta, served over rice, buttered noodles, or mash; 200g button mushrooms work in place of shiitake too.",
+    fav: false
+  },
+  {
+    id: 57,
+    name: "Salted Egg Chicken",
+    emoji: "🥚",
+    source: "own",
+    category: "Chicken",
+    time: "50 mins",
+    servings: "8",
+    tags: ["Singapore", "Malaysian", "Chicken", "Air-Fryer", "Freezer-Friendly"],
+    ingredients: [
+      "— CHICKEN —",
+      "1000g boneless chicken thigh, bite-size",
+      "30g light soy sauce",
+      "2g white pepper",
+      "2 egg whites",
+      "20g cornstarch (marinade)",
+      "120g cornstarch (for coating)",
+      "30g neutral oil, for spraying/brushing (replaces deep-frying)",
+      "— SAUCE —",
+      "8 salted egg yolks",
+      "60g unsalted butter",
+      "8 garlic cloves, minced",
+      "6 bird's eye chillies, sliced",
+      "6g curry leaves",
+      "10g sugar",
+      "60ml evaporated milk (optional)"
+    ],
+    steps: [
+      "Marinate the chicken with the soy sauce, white pepper, egg whites, and 20g cornstarch for 20 minutes.",
+      "Toss in the 120g cornstarch, then rest for 5 minutes so the coating hydrates (this prevents white powdery patches).",
+      "Oil all sides and air fry in a single layer at 200°C for 12–15 minutes, flipping halfway, until golden and the internal temperature reaches 74°C. Cook in batches.",
+      "Steam the salted egg yolks for 8–10 minutes (or bake at 180°C for 10 minutes) and mash finely.",
+      "Melt the butter and fry the garlic, chilli, and curry leaves. Add the mashed yolk and stir until foaming. Add the sugar and evaporated milk and simmer for 1 minute.",
+      "Toss the chicken through the sauce right before serving."
+    ],
+    notes: "This is the doubled 1kg air-fryer freezer-batch version, adapted from a deep-fried original (500g chicken, 4 yolks — halve everything and deep-fry instead of air-frying if you prefer the original method). Do not freeze the finished dish — the crunch goes soggy and the butter-yolk sauce can split. Freeze the chicken and sauce separately instead: cool chicken fully, freeze on a tray, then bag; freeze sauce in 4 portions of about 60g. To serve: crisp the chicken at 200°C for 8–10 minutes from frozen, gently reheat the sauce, and toss together. Use at least 1 yolk per 125g chicken or the sauce turns thin and bland.",
+    fav: false
+  },
+  {
+    id: 56,
+    name: "Kam Heong Chicken",
+    emoji: "🍗",
+    source: "own",
+    category: "Malaysian Chinese",
+    time: "45 mins",
+    servings: "8",
+    tags: ["Malaysian", "Chinese", "Chicken", "Spicy", "Freezer-Friendly"],
+    ingredients: [
+      { qty: 1000, unit: "g", item: "boneless chicken thigh, bite-size" },
+      "— MARINADE —",
+      { qty: 15, unit: "g", item: "light soy sauce" },
+      { qty: 20, unit: "g", item: "cornflour" },
+      { qty: 2, unit: "tsp", item: "oil" },
+      { qty: 60, unit: "g", item: "dried shrimp" },
+      { qty: 12, unit: "", item: "garlic cloves, minced" },
+      { qty: 8, unit: "", item: "shallots, sliced" },
+      { qty: 10, unit: "", item: "bird's eye chillies, chopped" },
+      { qty: 6, unit: "", item: "curry leaf sprigs, leaves picked" },
+      { qty: 14, unit: "g", item: "meat curry powder" },
+      { qty: 35, unit: "g", item: "oyster sauce" },
+      { qty: 20, unit: "g", item: "sugar" },
+      { qty: 120, unit: "g", item: "water" },
+      { qty: 60, unit: "g", item: "cooking oil" }
+    ],
+    steps: [
+      "Marinate the chicken with the soy sauce, cornflour, and oil for 15 minutes.",
+      "Soak the dried shrimp in hot water for 10 minutes, drain, and chop finely.",
+      "Air fry the chicken in a single layer at 200°C for 10–12 minutes, flipping once. Cook in batches.",
+      "Heat the oil in a wok over medium heat and fry the shrimp until crisp. Add the garlic, shallots, chilli, and curry leaves until fragrant.",
+      "Add the curry powder and stir for 30 seconds. Add the oyster sauce, sugar, and water, then the chicken.",
+      "Toss over high heat until the sauce clings to the chicken and little liquid is left."
+    ],
+    notes: "This is the doubled 1kg freezer-batch version — the original single recipe was 500g chicken (4 servings), just halve everything. Frying the dried shrimp until crisp is where most of the flavour comes from. Swap chicken for prawns (shorter cook), crab, or clams — for clams, skip the frying step and cook them directly in the sauce until they open. Buy about 125g raw chicken per portion. Freezes well: cool fully, portion, and freeze up to 1 month; reheat in a hot wok or air fryer.",
+    fav: false
+  },
   {
     id: 55,
     name: "Classic Hummus",
