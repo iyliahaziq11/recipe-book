@@ -914,6 +914,66 @@ function saveRecipes() {
 
 let recipes = loadRecipes() || [
   {
+    id: 73,
+    name: "Sourdough Focaccia",
+    emoji: "🫓",
+    source: "own",
+    category: "Bread",
+    time: "~2 days (incl. cold ferment)",
+    servings: "1 pan (350g flour)",
+    tags: ["Bread", "Baked", "Italian", "Sourdough"],
+    ingredients: [
+      { qty: 350, unit: "g", item: "bread flour" },
+      { qty: 63, unit: "g", item: "starter" },
+      { qty: 308, unit: "g", item: "water" },
+      { qty: 7, unit: "g", item: "salt" },
+      { qty: 14, unit: "g", item: "EVOO" }
+    ],
+    steps: [
+      "Combine the water and flour. Rest for 30 minutes.",
+      "Add the starter, EVOO, and salt. Rest for 15 minutes.",
+      "Stretch and fold 3 times, at 20-minute intervals.",
+      "Wrap in plastic and cold ferment in the fridge.",
+      "Remove from the fridge and let it come to room temperature for 2 hours.",
+      "Oil the pan, place the dough in, cover with a towel, and rest for 1 hour.",
+      "Bake at 220°C for about 25 minutes until deep golden."
+    ],
+    notes: "Transcribed from an incomplete spreadsheet screenshot — the first step mentions 'AP flour and bread flour' but only a single 350g bread flour amount was visible, and the bake temperature/time weren't shown either. The bake step above was added to match the book's other focaccia recipes (220°C, ~25 minutes) — adjust once you confirm your actual numbers. 88% hydration with an 18% starter gives a slacker, airier dough than the Discard + Instant Yeast Focaccia recipe.",
+    fav: false
+  },
+  {
+    id: 72,
+    name: "Poolish Focaccia (Instant Yeast)",
+    emoji: "🫓",
+    source: "own",
+    category: "Bread",
+    time: "~1–2 days (incl. optional cold proof)",
+    servings: "2 large pans + 1 medium (base batch)",
+    tags: ["Bread", "Baked", "Italian", "Poolish"],
+    ingredients: [
+      { qty: 450, unit: "g", item: "bread flour" },
+      { qty: 382.5, unit: "g", item: "water" },
+      { qty: 135, unit: "g", item: "poolish (pre-ferment)" },
+      { qty: 13.5, unit: "g", item: "honey" },
+      { qty: 3.6, unit: "g", item: "instant yeast" },
+      { qty: 9, unit: "g", item: "salt" },
+      { qty: 4.5, unit: "g", item: "mushroom powder (optional)" },
+      { qty: 18, unit: "g", item: "olive oil" },
+      { qty: 90, unit: "g", item: "fillings of choice (optional)" }
+    ],
+    steps: [
+      "The night before, make a poolish (ratios weren't specified in the original note — a standard 100% hydration poolish with a pinch of instant yeast, left at room temperature 8–12 hours, works well; see notes).",
+      "Mix the flour, water, poolish, honey, instant yeast, salt, and mushroom powder (if using) until no dry flour remains. Rest.",
+      "Add the olive oil and squeeze it into the dough.",
+      "Coil fold 3 times, every 20–30 minutes.",
+      "Optional: cold proof in the fridge for 12–36 hours for extra flavour.",
+      "Take the dough out 2–3 hours before baking to come to room temperature. Oil the pan, tip in the dough, dimple with oiled fingers, and add any fillings.",
+      "Bake at 220°C for about 25 minutes until deep golden."
+    ],
+    notes: "Transcribed from an incomplete spreadsheet screenshot — the poolish's own flour/water ratio wasn't shown (a standard poolish is equal parts flour and water by weight with a small pinch of yeast, left at room temperature for 8–12 hours). Total dough weight is 1016.1g excluding fillings; the full base batch (1000g dough) makes 2 big pans and 1 medium pan — use the Scale control above to size it up or down. Essentially the poolish-based sibling to the Discard + Instant Yeast Focaccia recipe — same bake method, different pre-ferment.",
+    fav: false
+  },
+  {
     id: 71,
     name: "Creamy Tuna Pasta",
     emoji: "🐟",
