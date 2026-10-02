@@ -877,9 +877,14 @@ const GROUPS = [
 const GROUP_KEYWORDS = [
   ['dessert', ['dessert','cake','bubur','lava','pudding','kuih']],
   ['drinks',  ['drink','tea','teh']],
-  ['sauce',   ['sambal','sos','condiment','sauce']],
+  // Seafood/meat checked before sauce so a dish like "Sambal Kentang Ikan
+  // Bilis" (real protein content) groups by its protein, not as a plain
+  // condiment — pure condiments (Sambal Tumis Ibu, Sos Roti John, Masala
+  // Mayo, etc.) have no protein word in their name/category/tags, so this
+  // reorder doesn't change where any of those land.
   ['seafood', ['seafood','ikan','fish','udang','prawn','shrimp','ketam','crab','sotong','squid','siput','siakap','pla','tuna']],
   ['meat',    ['beef','chicken','ayam','daging','pork','babi','kambing','lamb','turkey','duck','sausage','gai']],
+  ['sauce',   ['sambal','sos','condiment','sauce']],
   ['vege',    ['vegetarian','sayur','vegetable','tofu','tauhu','lentil','kacang']],
   ['bread',   ['bread','bagel','dumpling','snack','toast','pastry','waffle','pancake']],
   ['rice',    ['rice','nasi','noodle','mee','bihun','pasta','briyani']],
@@ -913,6 +918,44 @@ function saveRecipes() {
 }
 
 let recipes = loadRecipes() || [
+  {
+    id: 74,
+    name: "Sambal Kentang Ikan Bilis Petai",
+    emoji: "🥔",
+    source: "own",
+    category: "Lauk Melayu",
+    time: "45 mins",
+    servings: "4–6",
+    tags: ["Malaysian", "Ikan Bilis", "Petai", "Pedas", "Side Dish"],
+    ingredients: [
+      "2–3 sudu besar Sambal Tumis Ibu (guna resepi sedia ada, atau blend baru guna bahan di bawah)",
+      "— JIKA BLEND BARU —",
+      "100g cili kering, direndam",
+      "100g bawang besar",
+      "20g bawang putih",
+      "20g belacan",
+      "— LAIN-LAIN —",
+      "300g kentang, dipotong dadu kecil",
+      "150g ikan bilis",
+      "150g petai, dikupas dan dibelah dua",
+      "1 sudu kecil asam jawa (tamarind paste), dicampur dengan sedikit air",
+      "Gula secukup rasa",
+      "Garam secukup rasa",
+      "Minyak untuk menggoreng"
+    ],
+    steps: [
+      "Basuh ikan bilis dan toskan. Goreng dalam minyak panas sehingga garing dan keperangan. Angkat dan ketepikan.",
+      "Goreng kentang yang telah dipotong dadu dalam minyak yang sama sehingga garing di luar tetapi lembut di dalam. Angkat dan toskan.",
+      "Jika guna Sambal Tumis Ibu sedia ada, panaskan 2–3 sudu besar dalam kuali. Jika blend baru, blend cili kering, bawang besar, bawang putih, dan belacan hingga halus, kemudian tumis dalam minyak panas sehingga naik bau dan minyak pecah.",
+      "Masukkan petai. Tumis sebentar sehingga petai sedikit layu dan wangi.",
+      "Masukkan asam jawa yang telah dicampur air. Kacau rata.",
+      "Masukkan ikan bilis dan kentang goreng tadi. Gaul rata dengan sambal sehingga semua sebati.",
+      "Perasakan dengan gula dan garam secukup rasa. Masak sebentar lagi sehingga pekat.",
+      "Hidang panas dengan nasi putih."
+    ],
+    notes: "No specific recipe was given for this one — this is a standard version, written to reuse Sambal Tumis Ibu (the base sambal already in this book) the same way Asam Pedas does. Goreng kentang dan ikan bilis berasingan dahulu supaya kekal garing walaupun dah bercampur dengan sambal. Petai boleh ditambah lebih awal untuk rasa yang lebih kuat, atau lewat untuk rasa yang lebih ringan. Tahan 3–4 hari dalam peti sejuk.",
+    fav: false
+  },
   {
     id: 73,
     name: "Sourdough Focaccia",
